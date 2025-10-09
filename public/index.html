@@ -296,6 +296,10 @@
                     <span class="info-value">100 PNT</span>
                 </div>
                 <div class="info-item">
+                    <span class="info-label">USDT per mint:</span>
+                    <span class="info-value">10 USDT</span>
+                </div>
+                <div class="info-item">
                     <span class="info-label">Network:</span>
                     <span class="info-value">Sepolia Testnet</span>
                 </div>
@@ -310,6 +314,35 @@
                 <button class="btn-sbt" onclick="mintSBT()">Mint SBT</button>
                 <button class="btn-pnt" onclick="mintPNT()">
                     Mint 100 PNT
+                </button>
+            </div>
+
+            <div class="button-group">
+                <button
+                    class="btn-usdt"
+                    onclick="mintUSDT()"
+                    style="
+                        background: linear-gradient(
+                            135deg,
+                            #26a69a 0%,
+                            #00897b 100%
+                        );
+                    "
+                >
+                    Mint 10 USDT
+                </button>
+                <button
+                    class="btn-account"
+                    onclick="createAccount()"
+                    style="
+                        background: linear-gradient(
+                            135deg,
+                            #ff9800 0%,
+                            #f57c00 100%
+                        );
+                    "
+                >
+                    Create AA Account
                 </button>
             </div>
 
@@ -485,6 +518,90 @@
 
                     showStatus(
                         `✅ Successfully minted 100 PNT to ${address}`,
+                        "success",
+                        data.txHash,
+                    );
+                } catch (error) {
+                    showStatus(`❌ Error: ${error.message}`, "error");
+                } finally {
+                    button.disabled = false;
+                }
+            }
+
+            async function mintUSDT() {
+                const address = validateAddress();
+                if (!address) return;
+
+                const button = event.target;
+                button.disabled = true;
+                showStatus(
+                    '<span class="spinner"></span>Minting 10 USDT...',
+                    "loading",
+                );
+
+                try {
+                    const response = await fetch("/api/mint-usdt", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            address: address,
+                        }),
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(data.error || "Mint failed");
+                    }
+
+                    showStatus(
+                        `✅ Successfully minted 10 USDT to ${address}`,
+                        "success",
+                        data.txHash,
+                    );
+                } catch (error) {
+                    showStatus(`❌ Error: ${error.message}`, "error");
+                } finally {
+                    button.disabled = false;
+                }
+            }
+
+            async function createAccount() {
+                const address = validateAddress();
+                if (!address) return;
+
+                const button = event.target;
+                button.disabled = true;
+                const salt = Math.floor(Math.random() * 1000000);
+                showStatus(
+                    '<span class="spinner"></span>Creating AA Account...',
+                    "loading",
+                );
+
+                try {
+                    const response = await fetch("/api/create-account", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            owner: address,
+                            salt: salt,
+                        }),
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(
+                            data.error || "Account creation failed",
+                        );
+                    }
+
+                    showStatus(
+                        `✅ AA Account created!<br>Address: ${data.accountAddress}<br>Owner: ${address}`,
                         "success",
                         data.txHash,
                     );
