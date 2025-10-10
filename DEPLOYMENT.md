@@ -1,159 +1,142 @@
-# Faucet 部署指南
+# Faucet Deployment Guide
 
-## 快速部署到 Vercel
+## Environment Variables Configuration
 
-### 1. 准备工作
+The faucet application requires the following environment variables to be set in Vercel:
 
-确保你有：
-- Vercel 账号
-- Owner 地址的私钥（需要有 ETH 支付 gas）
-- Alchemy 或其他 Sepolia RPC URL
+### Required Environment Variables
 
-### 2. 部署步骤
+1. **SEPOLIA_RPC_URL**
+   - Description: Sepolia network RPC endpoint (e.g., Alchemy or Infura)
+   - Example: `https://eth-sepolia.g.alchemy.com/v2/YOUR_ALCHEMY_KEY`
+   - Required for: All API endpoints
+
+2. **SEPOLIA_PRIVATE_KEY** or **SEPOLIA_PRIVATE_KEY_NEW**
+   - Description: Private key of the faucet operator account (must have ETH for gas)
+   - Format: `0x...` (66 characters hex string)
+   - Required for: Minting tokens and creating accounts
+   - ⚠️ **Security**: This account should be funded but not hold significant assets
+
+3. **PNT_TOKEN_ADDRESS** (Optional, has default)
+   - Description: PNT token contract address
+   - Default: `0xD14E87d8D8B69016Fcc08728c33799bD3F66F180`
+
+4. **SBT_CONTRACT_ADDRESS** (Optional, has default)
+   - Description: SBT contract address
+   - Default: `0xBfde68c232F2248114429DDD9a7c3Adbff74bD7f`
+
+5. **USDT_CONTRACT_ADDRESS** (Optional, has default)
+   - Description: Mock USDT contract address
+   - Default: `0x14EaC6C3D49AEDff3D59773A7d7bfb50182bCfDc`
+
+6. **ADMIN_KEY** (Optional)
+   - Description: Secret key for admin operations (init-pool endpoint)
+   - Only required if using the init-pool API
+
+## Vercel Deployment Steps
+
+### 1. Set Environment Variables in Vercel Dashboard
+
+Navigate to: `https://vercel.com/[your-username]/faucet/settings/environment-variables`
+
+Add the following:
+```
+SEPOLIA_RPC_URL = https://eth-sepolia.g.alchemy.com/v2/YOUR_KEY
+SEPOLIA_PRIVATE_KEY = 0xYOUR_PRIVATE_KEY
+```
+
+⚠️ **Important**: Set these for **Production**, **Preview**, and **Development** environments.
+
+### 2. Redeploy the Application
+
+After setting environment variables, trigger a redeploy:
 
 ```bash
-# 进入项目目录
-cd /Users/jason/Dev/mycelium/my-exploration/projects/SuperPaymaster/faucet-app
-
-# 安装 Vercel CLI（如果还没有）
-npm i -g vercel
-
-# 登录 Vercel
-vercel login
-
-# 部署到生产环境
+# Option 1: Via CLI
+cd /path/to/faucet
 vercel --prod
+
+# Option 2: Via Vercel Dashboard
+# Go to Deployments tab and click "Redeploy"
 ```
 
-### 3. 配置环境变量
+### 3. Verify Deployment
 
-部署后，在 Vercel Dashboard 中添加环境变量：
-
-1. 访问: https://vercel.com/dashboard
-2. 选择你的项目
-3. Settings → Environment Variables
-4. 添加以下变量:
-
-```
-SEPOLIA_RPC_URL=https://eth-sepolia.g.alchemy.com/v2/Bx4QRW1-vnwJUePSAAD7N
-SEPOLIA_PRIVATE_KEY=0xYOUR_PRIVATE_KEY_HERE
-SBT_CONTRACT_ADDRESS=0xBfde68c232F2248114429DDD9a7c3Adbff74bD7f
-PNT_TOKEN_ADDRESS=0xD14E87d8D8B69016Fcc08728c33799bD3F66F180
-```
-
-或使用 CLI:
+Test the API endpoints:
 
 ```bash
-vercel env add SEPOLIA_RPC_URL production
-vercel env add SEPOLIA_PRIVATE_KEY production
-vercel env add SBT_CONTRACT_ADDRESS production
-vercel env add PNT_TOKEN_ADDRESS production
-```
-
-### 4. 重新部署
-
-添加环境变量后，重新部署：
-
-```bash
-vercel --prod
-```
-
-## 验证部署
-
-部署成功后，访问你的 Vercel URL（例如：`https://gastoken-faucet.vercel.app`）
-
-测试 API:
-
-```bash
-# 替换为你的 Vercel URL
-FAUCET_URL="https://your-app.vercel.app"
-
-# 测试 mint SBT
-curl -X POST $FAUCET_URL/api/mint \
+# Test mint SBT
+curl -X POST https://faucet.aastar.io/api/mint \
   -H "Content-Type: application/json" \
-  -d '{"address": "0x94FC9B8B7cAb56C01f20A24E37C2433FCe88A10D", "type": "sbt"}'
+  -d '{"address":"0xYourAddress","type":"sbt"}'
 
-# 测试 mint PNT
-curl -X POST $FAUCET_URL/api/mint \
+# Test mint USDT
+curl -X POST https://faucet.aastar.io/api/mint-usdt \
   -H "Content-Type: application/json" \
-  -d '{"address": "0x94FC9B8B7cAb56C01f20A24E37C2433FCe88A10D", "type": "pnt"}'
+  -d '{"address":"0xYourAddress"}'
+
+# Test create account
+curl -X POST https://faucet.aastar.io/api/create-account \
+  -H "Content-Type: application/json" \
+  -d '{"ownerAddress":"0xYourAddress"}'
 ```
 
-## 监控
+## Current Errors and Solutions
 
-### 检查 Owner 账户余额
+### Error: "Server configuration error"
+
+**Cause**: Missing `SEPOLIA_RPC_URL` or `SEPOLIA_PRIVATE_KEY` in Vercel environment variables.
+
+**Solution**: Add these environment variables in Vercel dashboard and redeploy.
+
+### Error: "Method not allowed"
+
+**Cause**: API endpoint received wrong HTTP method (e.g., GET instead of POST).
+
+**Solution**: Ensure you're sending POST requests to all API endpoints.
+
+### Error: "Faucet is out of funds"
+
+**Cause**: The faucet operator account has insufficient ETH for gas fees.
+
+**Solution**: Fund the operator account with Sepolia ETH (https://sepoliafaucet.com).
+
+## API Endpoints
+
+- `POST /api/mint` - Mint SBT or PNT tokens
+- `POST /api/mint-usdt` - Mint 10 Mock USDT
+- `POST /api/create-account` - Create AA account
+- `POST /api/init-pool` - Initialize PNT pool (admin only)
+
+## Rate Limits
+
+- SBT/PNT: 2 requests per hour per address
+- USDT: 5 requests per hour per address
+- Account creation: 3 requests per hour per address
+
+## Security Notes
+
+1. **Never commit** `.env` file to git
+2. Use a **dedicated operator account** with limited funds
+3. Rotate the `ADMIN_KEY` regularly if using init-pool endpoint
+4. Monitor the operator account balance to ensure continuous service
+5. Consider using a **managed secret service** for production (e.g., Vercel Secret Storage)
+
+## Troubleshooting
+
+### Check Vercel Logs
 
 ```bash
-cast balance 0x411BD567E46C0781248dbB6a9211891C032885e5 --rpc-url https://eth-sepolia.g.alchemy.com/v2/Bx4QRW1-vnwJUePSAAD7N
+vercel logs faucet --prod
 ```
 
-### 查看 Vercel 日志
+### Common Issues
 
-```bash
-vercel logs --follow
-```
+1. **Environment variables not updating**: Redeploy after setting variables
+2. **CORS errors**: Check that API allows origins (currently set to `*`)
+3. **Transaction failures**: Verify operator account has sufficient ETH
+4. **Contract call reverts**: Ensure contract addresses are correct for Sepolia
 
-或在 Dashboard: https://vercel.com/dashboard → 选择项目 → Logs
+## Support
 
-## 更新部署
-
-修改代码后重新部署：
-
-```bash
-# 提交代码
-git add -A
-git commit -m "Update faucet app"
-
-# 部署
-vercel --prod
-```
-
-## 故障排查
-
-### API 返回 500 错误
-
-检查 Vercel 日志:
-```bash
-vercel logs --follow
-```
-
-常见原因:
-- 环境变量配置错误
-- Owner 私钥格式错误
-- Owner 账户 ETH 不足
-- RPC URL 无效
-
-### Owner ETH 不足
-
-向 owner 地址充值:
-```bash
-# Owner 地址: 0x411BD567E46C0781248dbB6a9211891C032885e5
-# 需要至少 0.1 ETH 用于 gas
-```
-
-### Rate Limit 问题
-
-rate limit 使用内存缓存，serverless function 重启后会重置。如需持久化，可以使用 Redis 或数据库。
-
-## 安全建议
-
-1. **定期检查 Owner 余额**: 设置监控，ETH 低于 0.05 时告警
-2. **限制 mint 数量**: 当前每次 mint 100 PNT，可根据需要调整
-3. **监控使用情况**: 查看 Vercel Analytics 了解使用量
-4. **备份私钥**: 确保私钥安全存储
-5. **使用专用账户**: Owner 账户仅用于 faucet，不存放大量资金
-
-## 成本估算
-
-- **Vercel**: 免费计划足够（每月 100GB 带宽，100,000 次请求）
-- **Gas 费用**: 
-  - SBT mint: ~50,000 gas (~$0.0001 on Sepolia)
-  - PNT mint: ~45,000 gas (~$0.00009 on Sepolia)
-  - 每天 1000 次请求 ≈ 0.1 ETH/月
-
-## 下一步
-
-1. ✅ 部署成功后，测试所有功能
-2. ✅ 在 README 中添加 faucet URL
-3. ✅ 更新 QUICK_START.md，添加 faucet 链接
-4. ✅ 在 Discord/Twitter 分享 faucet 链接
+For issues, please visit: https://github.com/AAStarCommunity/faucet/issues
