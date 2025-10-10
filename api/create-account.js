@@ -11,11 +11,12 @@ const FACTORY_ABI = [
 
 // Configuration
 const SEPOLIA_RPC_URL = process.env.SEPOLIA_RPC_URL;
-const OWNER_PRIVATE_KEY = (
+const DEPLOYER_PRIVATE_KEY = (
   process.env.SEPOLIA_PRIVATE_KEY_NEW ||
   process.env.SEPOLIA_PRIVATE_KEY ||
   ""
 ).trim();
+const OWNER2_PRIVATE_KEY = (process.env.OWNER2_PRIVATE_KEY || "").trim();
 const FACTORY_ADDRESS =
   process.env.SIMPLE_ACCOUNT_FACTORY_ADDRESS ||
   "0x8B516A71c134a4b5196775e63b944f88Cc637F2b";
@@ -66,11 +67,11 @@ export default async function handler(req, res) {
   try {
     let { owner, salt } = req.body;
 
-    // If owner not provided, use OWNER_PRIVATE_KEY address as default owner
+    // If owner not provided, use OWNER2_PRIVATE_KEY address as default owner
     if (!owner) {
-      const ownerWallet = new ethers.Wallet(OWNER_PRIVATE_KEY);
+      const ownerWallet = new ethers.Wallet(OWNER2_PRIVATE_KEY);
       owner = ownerWallet.address;
-      console.log("Using default owner from OWNER_PRIVATE_KEY:", owner);
+      console.log("Using default owner from OWNER2_PRIVATE_KEY:", owner);
     }
 
     // Validate owner address format
@@ -93,14 +94,14 @@ export default async function handler(req, res) {
     }
 
     // Validate environment variables
-    if (!SEPOLIA_RPC_URL || !OWNER_PRIVATE_KEY) {
+    if (!SEPOLIA_RPC_URL || !DEPLOYER_PRIVATE_KEY || !OWNER2_PRIVATE_KEY) {
       console.error("Missing environment variables");
       return res.status(500).json({ error: "Server configuration error" });
     }
 
     // Initialize provider and signer
     const provider = new ethers.JsonRpcProvider(SEPOLIA_RPC_URL);
-    const signer = new ethers.Wallet(OWNER_PRIVATE_KEY, provider);
+    const signer = new ethers.Wallet(DEPLOYER_PRIVATE_KEY, provider);
 
     // Create SimpleAccount via Factory
     const factoryContract = new ethers.Contract(
