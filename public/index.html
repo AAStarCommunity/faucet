@@ -3,7 +3,12 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>GasToken Faucet - SuperPaymaster</title>
+        <title>AAStar Faucet for All Demo Tests</title>
+        <link
+            rel="icon"
+            type="image/x-icon"
+            href="https://www.aastar.io/favicon.ico"
+        />
         <style>
             * {
                 margin: 0;
@@ -247,6 +252,95 @@
                 }
             }
 
+            .contracts-section {
+                background: #f8f9fa;
+                border-radius: 10px;
+                padding: 20px;
+                margin-top: 30px;
+            }
+
+            .contracts-title {
+                color: #333;
+                font-size: 16px;
+                font-weight: 700;
+                margin-bottom: 15px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .contract-item {
+                background: white;
+                border-radius: 8px;
+                padding: 12px;
+                margin-bottom: 10px;
+                border: 1px solid #e0e0e0;
+            }
+
+            .contract-item:last-child {
+                margin-bottom: 0;
+            }
+
+            .contract-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 8px;
+            }
+
+            .contract-name {
+                font-weight: 700;
+                color: #667eea;
+                font-size: 14px;
+            }
+
+            .contract-badge {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 2px 8px;
+                border-radius: 4px;
+                font-size: 11px;
+                font-weight: 600;
+            }
+
+            .contract-detail {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 6px;
+                font-size: 12px;
+            }
+
+            .contract-label {
+                color: #666;
+                font-weight: 500;
+            }
+
+            .contract-address {
+                font-family: "Courier New", monospace;
+                color: #333;
+                font-size: 11px;
+            }
+
+            .etherscan-btn {
+                background: #f0f0f0;
+                color: #667eea;
+                padding: 4px 10px;
+                border-radius: 6px;
+                text-decoration: none;
+                font-size: 11px;
+                font-weight: 600;
+                transition: all 0.2s;
+                display: inline-block;
+                margin-left: 8px;
+            }
+
+            .etherscan-btn:hover {
+                background: #667eea;
+                color: white;
+                transform: translateX(2px);
+            }
+
             .footer {
                 text-align: center;
                 margin-top: 30px;
@@ -348,6 +442,177 @@
 
             <div id="status" class="status"></div>
 
+            <!-- Contract Information Section -->
+            <div class="contracts-section">
+                <div class="contracts-title">📋 Contract Information</div>
+
+                <!-- PNT Token -->
+                <div class="contract-item">
+                    <div class="contract-header">
+                        <span class="contract-name"
+                            >PNT Token (GasTokenV2)</span
+                        >
+                        <span class="contract-badge">ERC-20</span>
+                    </div>
+                    <div class="contract-detail">
+                        <span class="contract-label">Address:</span>
+                        <div>
+                            <span class="contract-address" id="pnt-address"
+                                >Loading...</span
+                            >
+                            <a
+                                href="#"
+                                id="pnt-link"
+                                target="_blank"
+                                class="etherscan-btn"
+                                >View →</a
+                            >
+                        </div>
+                    </div>
+                    <div class="contract-detail">
+                        <span class="contract-label">Owner:</span>
+                        <div>
+                            <span class="contract-address" id="pnt-owner"
+                                >Loading...</span
+                            >
+                            <a
+                                href="#"
+                                id="pnt-owner-link"
+                                target="_blank"
+                                class="etherscan-btn"
+                                >View →</a
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SBT Token -->
+                <div class="contract-item">
+                    <div class="contract-header">
+                        <span class="contract-name"
+                            >SBT (Soul Bound Token)</span
+                        >
+                        <span class="contract-badge">ERC-721</span>
+                    </div>
+                    <div class="contract-detail">
+                        <span class="contract-label">Address:</span>
+                        <div>
+                            <span class="contract-address" id="sbt-address"
+                                >Loading...</span
+                            >
+                            <a
+                                href="#"
+                                id="sbt-link"
+                                target="_blank"
+                                class="etherscan-btn"
+                                >View →</a
+                            >
+                        </div>
+                    </div>
+                    <div class="contract-detail">
+                        <span class="contract-label">Owner:</span>
+                        <div>
+                            <span class="contract-address" id="sbt-owner"
+                                >Loading...</span
+                            >
+                            <a
+                                href="#"
+                                id="sbt-owner-link"
+                                target="_blank"
+                                class="etherscan-btn"
+                                >View →</a
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <!-- USDT Token -->
+                <div class="contract-item">
+                    <div class="contract-header">
+                        <span class="contract-name">Mock USDT</span>
+                        <span class="contract-badge">ERC-20</span>
+                    </div>
+                    <div class="contract-detail">
+                        <span class="contract-label">Address:</span>
+                        <div>
+                            <span class="contract-address" id="usdt-address"
+                                >Loading...</span
+                            >
+                            <a
+                                href="#"
+                                id="usdt-link"
+                                target="_blank"
+                                class="etherscan-btn"
+                                >View →</a
+                            >
+                        </div>
+                    </div>
+                    <div class="contract-detail">
+                        <span class="contract-label">Owner:</span>
+                        <div>
+                            <span class="contract-address" id="usdt-owner"
+                                >Loading...</span
+                            >
+                            <a
+                                href="#"
+                                id="usdt-owner-link"
+                                target="_blank"
+                                class="etherscan-btn"
+                                >View →</a
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Paymaster -->
+                <div class="contract-item">
+                    <div class="contract-header">
+                        <span class="contract-name">SuperPaymaster V4</span>
+                        <span class="contract-badge">ERC-4337</span>
+                    </div>
+                    <div class="contract-detail">
+                        <span class="contract-label">Address:</span>
+                        <div>
+                            <span
+                                class="contract-address"
+                                id="paymaster-address"
+                                >Loading...</span
+                            >
+                            <a
+                                href="#"
+                                id="paymaster-link"
+                                target="_blank"
+                                class="etherscan-btn"
+                                >View →</a
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Account Factory -->
+                <div class="contract-item">
+                    <div class="contract-header">
+                        <span class="contract-name">SimpleAccount Factory</span>
+                        <span class="contract-badge">ERC-4337</span>
+                    </div>
+                    <div class="contract-detail">
+                        <span class="contract-label">Address:</span>
+                        <div>
+                            <span class="contract-address" id="factory-address"
+                                >Loading...</span
+                            >
+                            <a
+                                href="#"
+                                id="factory-link"
+                                target="_blank"
+                                class="etherscan-btn"
+                                >View →</a
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="footer">
                 <p>
                     Powered by
@@ -376,6 +641,124 @@
         </div>
 
         <script>
+            // Contract addresses
+            const CONTRACTS = {
+                PNT: "0xD14E87d8D8B69016Fcc08728c33799bD3F66F180",
+                SBT: "0xBfde68c232F2248114429DDD9a7c3Adbff74bD7f",
+                USDT: "0x14EaC6C3D49AEDff3D59773A7d7bfb50182bCfDc",
+                PAYMASTER: "0xBC56D82374c3CdF1234fa67E28AF9d3E31a9D445",
+                FACTORY: "0x9bD66892144FCf0BAF5B6946AEAFf38B0d967881",
+            };
+
+            const RPC_URL =
+                "https://eth-sepolia.g.alchemy.com/v2/Bx4QRW1-vnwJUePSAAD7N";
+            const ETHERSCAN_BASE = "https://sepolia.etherscan.io";
+
+            // Format address for display
+            function formatAddress(address) {
+                return `${address.slice(0, 6)}...${address.slice(-4)}`;
+            }
+
+            // Load contract owner
+            async function getContractOwner(contractAddress) {
+                try {
+                    const response = await fetch(RPC_URL, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            jsonrpc: "2.0",
+                            method: "eth_call",
+                            params: [
+                                {
+                                    to: contractAddress,
+                                    data: "0x8da5cb5b", // owner() function selector
+                                },
+                                "latest",
+                            ],
+                            id: 1,
+                        }),
+                    });
+
+                    const data = await response.json();
+                    if (data.result && data.result !== "0x") {
+                        return "0x" + data.result.slice(-40);
+                    }
+                    return null;
+                } catch (error) {
+                    console.error("Failed to get owner:", error);
+                    return null;
+                }
+            }
+
+            // Load all contract information
+            async function loadContractInfo() {
+                // PNT Token
+                document.getElementById("pnt-address").textContent =
+                    formatAddress(CONTRACTS.PNT);
+                document.getElementById("pnt-link").href =
+                    `${ETHERSCAN_BASE}/address/${CONTRACTS.PNT}`;
+
+                const pntOwner = await getContractOwner(CONTRACTS.PNT);
+                if (pntOwner) {
+                    document.getElementById("pnt-owner").textContent =
+                        formatAddress(pntOwner);
+                    document.getElementById("pnt-owner-link").href =
+                        `${ETHERSCAN_BASE}/address/${pntOwner}`;
+                } else {
+                    document.getElementById("pnt-owner").textContent = "N/A";
+                    document.getElementById("pnt-owner-link").style.display =
+                        "none";
+                }
+
+                // SBT Token
+                document.getElementById("sbt-address").textContent =
+                    formatAddress(CONTRACTS.SBT);
+                document.getElementById("sbt-link").href =
+                    `${ETHERSCAN_BASE}/address/${CONTRACTS.SBT}`;
+
+                const sbtOwner = await getContractOwner(CONTRACTS.SBT);
+                if (sbtOwner) {
+                    document.getElementById("sbt-owner").textContent =
+                        formatAddress(sbtOwner);
+                    document.getElementById("sbt-owner-link").href =
+                        `${ETHERSCAN_BASE}/address/${sbtOwner}`;
+                } else {
+                    document.getElementById("sbt-owner").textContent = "N/A";
+                    document.getElementById("sbt-owner-link").style.display =
+                        "none";
+                }
+
+                // USDT Token
+                document.getElementById("usdt-address").textContent =
+                    formatAddress(CONTRACTS.USDT);
+                document.getElementById("usdt-link").href =
+                    `${ETHERSCAN_BASE}/address/${CONTRACTS.USDT}`;
+
+                const usdtOwner = await getContractOwner(CONTRACTS.USDT);
+                if (usdtOwner) {
+                    document.getElementById("usdt-owner").textContent =
+                        formatAddress(usdtOwner);
+                    document.getElementById("usdt-owner-link").href =
+                        `${ETHERSCAN_BASE}/address/${usdtOwner}`;
+                } else {
+                    document.getElementById("usdt-owner").textContent = "N/A";
+                    document.getElementById("usdt-owner-link").style.display =
+                        "none";
+                }
+
+                // Paymaster
+                document.getElementById("paymaster-address").textContent =
+                    formatAddress(CONTRACTS.PAYMASTER);
+                document.getElementById("paymaster-link").href =
+                    `${ETHERSCAN_BASE}/address/${CONTRACTS.PAYMASTER}`;
+
+                // Factory
+                document.getElementById("factory-address").textContent =
+                    formatAddress(CONTRACTS.FACTORY);
+                document.getElementById("factory-link").href =
+                    `${ETHERSCAN_BASE}/address/${CONTRACTS.FACTORY}`;
+            }
+
             // Load treasury balance on page load
             async function loadTreasuryBalance() {
                 const TREASURY_ADDRESS =
@@ -415,7 +798,10 @@
                 }
             }
 
-            window.addEventListener("load", loadTreasuryBalance);
+            window.addEventListener("load", () => {
+                loadTreasuryBalance();
+                loadContractInfo();
+            });
 
             function showStatus(message, type, txHash = null) {
                 const statusEl = document.getElementById("status");
