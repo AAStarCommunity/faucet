@@ -130,6 +130,44 @@
                 margin-bottom: 20px;
             }
 
+            .address-input-wrapper {
+                display: flex;
+                gap: 10px;
+                align-items: stretch;
+            }
+
+            .address-input-wrapper input {
+                flex: 1;
+            }
+
+            .btn-create-account {
+                padding: 12px 20px;
+                border: none;
+                border-radius: 10px;
+                font-size: 14px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s;
+                color: white;
+                background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+                white-space: nowrap;
+            }
+
+            .btn-create-account:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3);
+            }
+
+            .btn-create-account:active {
+                transform: translateY(0);
+            }
+
+            .btn-create-account:disabled {
+                background: #ccc;
+                cursor: not-allowed;
+                transform: none;
+            }
+
             label {
                 display: block;
                 margin-bottom: 8px;
@@ -401,7 +439,20 @@
 
             <div class="input-group">
                 <label for="address">Your Ethereum Address</label>
-                <input type="text" id="address" placeholder="0x..." required />
+                <div class="address-input-wrapper">
+                    <input
+                        type="text"
+                        id="address"
+                        placeholder="0x... (EOA or Contract)"
+                        required
+                    />
+                    <button
+                        class="btn-create-account"
+                        onclick="createAccount()"
+                    >
+                        Create AA Account
+                    </button>
+                </div>
             </div>
 
             <div class="button-group">
@@ -421,22 +472,10 @@
                             #26a69a 0%,
                             #00897b 100%
                         );
+                        grid-column: 1 / -1;
                     "
                 >
                     Mint 10 USDT
-                </button>
-                <button
-                    class="btn-account"
-                    onclick="createAccount()"
-                    style="
-                        background: linear-gradient(
-                            135deg,
-                            #ff9800 0%,
-                            #f57c00 100%
-                        );
-                    "
-                >
-                    Create AA Account
                 </button>
             </div>
 
@@ -592,7 +631,9 @@
                 <!-- Account Factory -->
                 <div class="contract-item">
                     <div class="contract-header">
-                        <span class="contract-name">SimpleAccount Factory</span>
+                        <span class="contract-name"
+                            >SimpleAccountFactoryV2</span
+                        >
                         <span class="contract-badge">ERC-4337</span>
                     </div>
                     <div class="contract-detail">
@@ -609,6 +650,14 @@
                                 >View →</a
                             >
                         </div>
+                    </div>
+                    <div class="contract-detail">
+                        <span class="contract-label">Creates:</span>
+                        <span
+                            class="contract-address"
+                            style="color: #667eea; font-weight: 600"
+                            >SimpleAccountV2 (supports personal_sign)</span
+                        >
                     </div>
                 </div>
             </div>
@@ -647,7 +696,7 @@
                 SBT: "0xBfde68c232F2248114429DDD9a7c3Adbff74bD7f",
                 USDT: "0x14EaC6C3D49AEDff3D59773A7d7bfb50182bCfDc",
                 PAYMASTER: "0xBC56D82374c3CdF1234fa67E28AF9d3E31a9D445",
-                FACTORY: "0x9bD66892144FCf0BAF5B6946AEAFf38B0d967881",
+                FACTORY: "0x8B516A71c134a4b5196775e63b944f88Cc637F2b", // V2 Factory
             };
 
             const RPC_URL =
@@ -822,7 +871,10 @@
             function validateAddress() {
                 const address = document.getElementById("address").value.trim();
                 if (!address) {
-                    showStatus("Please enter an Ethereum address", "error");
+                    showStatus(
+                        "Please enter an Ethereum EOA(MetaMask) address or contract account address",
+                        "error",
+                    );
                     return null;
                 }
                 if (!/^0x[a-fA-F0-9]{40}$/.test(address)) {

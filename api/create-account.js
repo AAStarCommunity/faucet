@@ -18,7 +18,7 @@ const OWNER_PRIVATE_KEY = (
 ).trim();
 const FACTORY_ADDRESS =
   process.env.SIMPLE_ACCOUNT_FACTORY_ADDRESS ||
-  "0x9bD66892144FCf0BAF5B6946AEAFf38B0d967881";
+  "0x8B516A71c134a4b5196775e63b944f88Cc637F2b";
 
 // Rate limiting (simple in-memory cache for demo)
 const rateLimitCache = new Map();
