@@ -66,11 +66,11 @@ export default async function handler(req, res) {
   try {
     let { owner, salt } = req.body;
 
-    // If owner not provided, generate random wallet
+    // If owner not provided, use OWNER_PRIVATE_KEY address as default owner
     if (!owner) {
-      const randomWallet = ethers.Wallet.createRandom();
-      owner = randomWallet.address;
-      console.log("Generated random owner:", owner);
+      const ownerWallet = new ethers.Wallet(OWNER_PRIVATE_KEY);
+      owner = ownerWallet.address;
+      console.log("Using default owner from OWNER_PRIVATE_KEY:", owner);
     }
 
     // Validate owner address format
