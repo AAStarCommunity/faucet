@@ -9,14 +9,14 @@ importers:
   .:
     dependencies:
       ethers:
-        specifier: ^6.13.0
+        specifier: ^6.15.0
         version: 6.15.0
     devDependencies:
       '@playwright/test':
         specifier: ^1.56.0
         version: 1.56.0
       vercel:
-        specifier: ^37.0.0
+        specifier: ^37.14.0
         version: 37.14.0
 
 packages:
