@@ -1007,26 +1007,23 @@
             }
 
             async function createAccount() {
-                const address = validateAddress();
-                if (!address) return;
-
                 const button = event.target;
                 button.disabled = true;
-                const salt = Math.floor(Math.random() * 1000000);
+
                 showStatus(
-                    '<span class="spinner"></span>Creating AA Account...',
+                    '<span class="spinner"></span>Creating AA Account with random owner...',
                     "loading",
                 );
 
                 try {
+                    // Call API without owner (API will generate random owner)
                     const response = await fetch("/api/create-account", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
                         },
                         body: JSON.stringify({
-                            owner: address,
-                            salt: salt,
+                            // No owner provided, API will generate random one
                         }),
                     });
 
@@ -1038,8 +1035,12 @@
                         );
                     }
 
+                    // Auto-fill the AA account address into the input field
+                    document.getElementById("address").value =
+                        data.accountAddress;
+
                     showStatus(
-                        `✅ AA Account created!<br>Address: ${data.accountAddress}<br>Owner: ${address}`,
+                        `✅ AA Account created and filled!<br>AA Address: ${data.accountAddress}<br>Owner: ${data.owner}`,
                         "success",
                         data.txHash,
                     );

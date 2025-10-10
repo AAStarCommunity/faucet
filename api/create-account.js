@@ -64,13 +64,16 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { owner, salt } = req.body;
+    let { owner, salt } = req.body;
 
-    // Validate input
+    // If owner not provided, generate random wallet
     if (!owner) {
-      return res.status(400).json({ error: "Missing owner parameter" });
+      const randomWallet = ethers.Wallet.createRandom();
+      owner = randomWallet.address;
+      console.log("Generated random owner:", owner);
     }
 
+    // Validate owner address format
     if (!/^0x[a-fA-F0-9]{40}$/.test(owner)) {
       return res
         .status(400)
