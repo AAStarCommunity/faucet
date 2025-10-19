@@ -1,5 +1,5 @@
 // Vercel Serverless Function for Faucet Minting
-// Mints SBT or PNT tokens to user addresses
+// Mints SBT, PNT, or GToken tokens to user addresses
 
 const { ethers } = require("ethers");
 
@@ -14,6 +14,8 @@ const PNT_ABI = [
   "function balanceOf(address owner) external view returns (uint256)",
 ];
 
+const GTOKEN_ABI = ["function mint(address to, uint256 amount) external"];
+
 // Configuration
 const SEPOLIA_RPC_URL = process.env.SEPOLIA_RPC_URL;
 const OWNER_PRIVATE_KEY = (
@@ -26,9 +28,13 @@ const SBT_ADDRESS =
   "0xBfde68c232F2248114429DDD9a7c3Adbff74bD7f";
 const PNT_ADDRESS =
   process.env.PNT_TOKEN_ADDRESS || "0xD14E87d8D8B69016Fcc08728c33799bD3F66F180"; // GasTokenV2 (PNTv2)
+const GTOKEN_ADDRESS =
+  process.env.GTOKEN_CONTRACT_ADDRESS ||
+  "0x868F843723a98c6EECC4BF0aF3352C53d5004147";
 
 // Mint amounts
 const PNT_MINT_AMOUNT = ethers.parseUnits("100", 18); // 100 PNT
+const GTOKEN_MINT_AMOUNT = ethers.parseUnits("30", 18); // 30 GToken
 
 // Rate limiting (simple in-memory cache for demo)
 const rateLimitCache = new Map();
@@ -91,6 +97,24 @@ async function mintPNT(address, provider, signer) {
   };
 }
 
+async function mintGToken(address, provider, signer) {
+  const gtokenContract = new ethers.Contract(
+    GTOKEN_ADDRESS,
+    GTOKEN_ABI,
+    signer,
+  );
+
+  // Mint GToken
+  const tx = await gtokenContract.mint(address, GTOKEN_MINT_AMOUNT);
+  const receipt = await tx.wait();
+
+  return {
+    txHash: receipt.hash,
+    blockNumber: receipt.blockNumber,
+    amount: "30 GToken",
+  };
+}
+
 export default async function handler(req, res) {
   // CORS headers
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -121,10 +145,10 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Invalid Ethereum address" });
     }
 
-    if (!["sbt", "pnt"].includes(type)) {
+    if (!["sbt", "pnt", "gtoken"].includes(type)) {
       return res
         .status(400)
-        .json({ error: 'Invalid type. Must be "sbt" or "pnt"' });
+        .json({ error: 'Invalid type. Must be "sbt", "pnt", or "gtoken"' });
     }
 
     // Check rate limit
@@ -149,8 +173,10 @@ export default async function handler(req, res) {
     let result;
     if (type === "sbt") {
       result = await mintSBT(address, provider, signer);
-    } else {
+    } else if (type === "pnt") {
       result = await mintPNT(address, provider, signer);
+    } else if (type === "gtoken") {
+      result = await mintGToken(address, provider, signer);
     }
 
     // Return success response

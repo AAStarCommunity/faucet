@@ -399,7 +399,7 @@
     <body>
         <div class="container">
             <h1>💧 GasToken Faucet</h1>
-            <p class="subtitle">Get free SBT and PNT tokens on Sepolia</p>
+            <p class="subtitle">Get free SBT, PNT, and GToken on Sepolia</p>
 
             <div class="treasury-banner">
                 <div class="treasury-info">
@@ -426,6 +426,10 @@
                 <div class="info-item">
                     <span class="info-label">PNT per mint:</span>
                     <span class="info-value">100 PNT</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">GToken per mint:</span>
+                    <span class="info-value">30 GToken</span>
                 </div>
                 <div class="info-item">
                     <span class="info-label">USDT per mint:</span>
@@ -464,6 +468,23 @@
 
             <div class="button-group">
                 <button
+                    class="btn-gtoken"
+                    onclick="mintGToken()"
+                    style="
+                        background: linear-gradient(
+                            135deg,
+                            #3c8ce7 0%,
+                            #00eaff 100%
+                        );
+                        grid-column: 1 / -1;
+                    "
+                >
+                    Mint 30 GToken
+                </button>
+            </div>
+
+            <div class="button-group">
+                <button
                     class="btn-usdt"
                     onclick="mintUSDT()"
                     style="
@@ -485,11 +506,51 @@
             <div class="contracts-section">
                 <div class="contracts-title">📋 Contract Information</div>
 
-                <!-- PNT Token -->
+                <!-- GToken Token -->
                 <div class="contract-item">
                     <div class="contract-header">
                         <span class="contract-name"
-                            >PNT Token (GasTokenV2)</span
+                            >Governance Token (GToken)</span
+                        >
+                        <span class="contract-badge">ERC-20</span>
+                    </div>
+                    <div class="contract-detail">
+                        <span class="contract-label">Address:</span>
+                        <div>
+                            <span class="contract-address" id="gtoken-address"
+                                >Loading...</span
+                            >
+                            <a
+                                href="#"
+                                id="gtoken-link"
+                                target="_blank"
+                                class="etherscan-btn"
+                                >View →</a
+                            >
+                        </div>
+                    </div>
+                    <div class="contract-detail">
+                        <span class="contract-label">Owner:</span>
+                        <div>
+                            <span class="contract-address" id="gtoken-owner"
+                                >Loading...</span
+                            >
+                            <a
+                                href="#"
+                                id="gtoken-owner-link"
+                                target="_blank"
+                                class="etherscan-btn"
+                                >View →</a
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PNT Token -->
+                <div class="contract-item">
+                    <div class="contract-header">
+                        <span class="contract-name">
+                            PNT Token (GasTokenV2)</span
                         >
                         <span class="contract-badge">ERC-20</span>
                     </div>
@@ -528,8 +589,8 @@
                 <!-- SBT Token -->
                 <div class="contract-item">
                     <div class="contract-header">
-                        <span class="contract-name"
-                            >SBT (Soul Bound Token)</span
+                        <span class="contract-name">
+                            SBT (Soul Bound Token)</span
                         >
                         <span class="contract-badge">ERC-721</span>
                     </div>
@@ -551,7 +612,10 @@
                     <div class="contract-detail">
                         <span class="contract-label">Owner:</span>
                         <div>
-                            <span class="contract-address" id="sbt-owner"
+                            <span
+                                class="contract-address"
+                                id="sbt-owner
+                    "
                                 >Loading...</span
                             >
                             <a
@@ -631,8 +695,8 @@
                 <!-- Account Factory -->
                 <div class="contract-item">
                     <div class="contract-header">
-                        <span class="contract-name"
-                            >SimpleAccountFactoryV2</span
+                        <span class="contract-name">
+                            SimpleAccountFactoryV2</span
                         >
                         <span class="contract-badge">ERC-4337</span>
                     </div>
@@ -695,6 +759,7 @@
                 PNT: "0xD14E87d8D8B69016Fcc08728c33799bD3F66F180",
                 SBT: "0xBfde68c232F2248114429DDD9a7c3Adbff74bD7f",
                 USDT: "0x14EaC6C3D49AEDff3D59773A7d7bfb50182bCfDc",
+                GTOKEN: "0x868F843723a98c6EECC4BF0aF3352C53d5004147",
                 PAYMASTER: "0xBC56D82374c3CdF1234fa67E28AF9d3E31a9D445",
                 FACTORY: "0x8B516A71c134a4b5196775e63b944f88Cc637F2b", // V2 Factory
             };
@@ -741,6 +806,24 @@
 
             // Load all contract information
             async function loadContractInfo() {
+                // GToken Token
+                document.getElementById("gtoken-address").textContent =
+                    formatAddress(CONTRACTS.GTOKEN);
+                document.getElementById("gtoken-link").href =
+                    `${ETHERSCAN_BASE}/address/${CONTRACTS.GTOKEN}`;
+
+                const gtokenOwner = await getContractOwner(CONTRACTS.GTOKEN);
+                if (gtokenOwner) {
+                    document.getElementById("gtoken-owner").textContent =
+                        formatAddress(gtokenOwner);
+                    document.getElementById("gtoken-owner-link").href =
+                        `${ETHERSCAN_BASE}/address/${gtokenOwner}`;
+                } else {
+                    document.getElementById("gtoken-owner").textContent = "N/A";
+                    document.getElementById("gtoken-owner-link").style.display =
+                        "none";
+                }
+
                 // PNT Token
                 document.getElementById("pnt-address").textContent =
                     formatAddress(CONTRACTS.PNT);
@@ -956,6 +1039,47 @@
 
                     showStatus(
                         `✅ Successfully minted 100 PNT to ${address}`,
+                        "success",
+                        data.txHash,
+                    );
+                } catch (error) {
+                    showStatus(`❌ Error: ${error.message}`, "error");
+                } finally {
+                    button.disabled = false;
+                }
+            }
+
+            async function mintGToken() {
+                const address = validateAddress();
+                if (!address) return;
+
+                const button = event.target;
+                button.disabled = true;
+                showStatus(
+                    '<span class="spinner"></span>Minting 30 GToken...',
+                    "loading",
+                );
+
+                try {
+                    const response = await fetch("/api/mint", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            address: address,
+                            type: "gtoken",
+                        }),
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(data.error || "Mint failed");
+                    }
+
+                    showStatus(
+                        `✅ Successfully minted 30 GToken to ${address}`,
                         "success",
                         data.txHash,
                     );
