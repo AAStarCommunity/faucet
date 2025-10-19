@@ -30,7 +30,7 @@ cd /path/to/SuperPaymaster/faucet-app
 source .env && echo "$SEPOLIA_RPC_URL" | vercel env add SEPOLIA_RPC_URL production
 
 # 2. SEPOLIA_PRIVATE_KEY
-source .env && echo "$SEPOLIA_PRIVATE_KEY" | vercel env add SEPOLIA_PRIVATE_KEY production
+source .env && echo OWNER_PRIVATE_KEY | vercel env add SEPOLIA_PRIVATE_KEY production
 
 # 3. PNT_TOKEN_ADDRESS
 source .env && echo "$PNT_TOKEN_ADDRESS" | vercel env add PNT_TOKEN_ADDRESS production

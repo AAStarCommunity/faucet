@@ -11,7 +11,7 @@ The faucet application requires the following environment variables to be set in
    - Example: `https://eth-sepolia.g.alchemy.com/v2/YOUR_ALCHEMY_KEY`
    - Required for: All API endpoints
 
-2. **SEPOLIA_PRIVATE_KEY** or **SEPOLIA_PRIVATE_KEY_NEW**
+2. **OWNER_PRIVATE_KEY** or **SEPOLIA_PRIVATE_KEY_NEW**
    - Description: Private key of the faucet operator account (must have ETH for gas)
    - Format: `0x...` (66 characters hex string)
    - Required for: Minting tokens and creating accounts

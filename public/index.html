@@ -354,10 +354,37 @@
                 font-weight: 500;
             }
 
+            .contract-address-group {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
             .contract-address {
                 font-family: "Courier New", monospace;
                 color: #333;
                 font-size: 11px;
+            }
+
+            .copy-btn {
+                cursor: pointer;
+                background: none;
+                border: none;
+                padding: 2px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                opacity: 0.6;
+                transition: opacity 0.2s;
+            }
+
+            .copy-btn:hover {
+                opacity: 1;
+            }
+
+            .copy-btn svg {
+                width: 12px;
+                height: 12px;
             }
 
             .etherscan-btn {
@@ -370,7 +397,6 @@
                 font-weight: 600;
                 transition: all 0.2s;
                 display: inline-block;
-                margin-left: 8px;
             }
 
             .etherscan-btn:hover {
@@ -516,10 +542,25 @@
                     </div>
                     <div class="contract-detail">
                         <span class="contract-label">Address:</span>
-                        <div>
+                        <div class="contract-address-group">
                             <span class="contract-address" id="gtoken-address"
                                 >Loading...</span
                             >
+                            <button
+                                class="copy-btn"
+                                onclick="copyToClipboard(CONTRACTS.GTOKEN, this)"
+                                title="Copy Address"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="currentColor"
+                                >
+                                    <path
+                                        d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                                    />
+                                </svg>
+                            </button>
                             <a
                                 href="#"
                                 id="gtoken-link"
@@ -531,10 +572,25 @@
                     </div>
                     <div class="contract-detail">
                         <span class="contract-label">Owner:</span>
-                        <div>
+                        <div class="contract-address-group">
                             <span class="contract-address" id="gtoken-owner"
                                 >Loading...</span
                             >
+                            <button
+                                class="copy-btn"
+                                onclick="copyOwner('gtoken-owner-link', this)"
+                                title="Copy Address"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="currentColor"
+                                >
+                                    <path
+                                        d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                                    />
+                                </svg>
+                            </button>
                             <a
                                 href="#"
                                 id="gtoken-owner-link"
@@ -556,10 +612,25 @@
                     </div>
                     <div class="contract-detail">
                         <span class="contract-label">Address:</span>
-                        <div>
+                        <div class="contract-address-group">
                             <span class="contract-address" id="pnt-address"
                                 >Loading...</span
                             >
+                            <button
+                                class="copy-btn"
+                                onclick="copyToClipboard(CONTRACTS.PNT, this)"
+                                title="Copy Address"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="currentColor"
+                                >
+                                    <path
+                                        d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                                    />
+                                </svg>
+                            </button>
                             <a
                                 href="#"
                                 id="pnt-link"
@@ -571,10 +642,25 @@
                     </div>
                     <div class="contract-detail">
                         <span class="contract-label">Owner:</span>
-                        <div>
+                        <div class="contract-address-group">
                             <span class="contract-address" id="pnt-owner"
                                 >Loading...</span
                             >
+                            <button
+                                class="copy-btn"
+                                onclick="copyOwner('pnt-owner-link', this)"
+                                title="Copy Address"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="currentColor"
+                                >
+                                    <path
+                                        d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                                    />
+                                </svg>
+                            </button>
                             <a
                                 href="#"
                                 id="pnt-owner-link"
@@ -596,10 +682,25 @@
                     </div>
                     <div class="contract-detail">
                         <span class="contract-label">Address:</span>
-                        <div>
+                        <div class="contract-address-group">
                             <span class="contract-address" id="sbt-address"
                                 >Loading...</span
                             >
+                            <button
+                                class="copy-btn"
+                                onclick="copyToClipboard(CONTRACTS.SBT, this)"
+                                title="Copy Address"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="currentColor"
+                                >
+                                    <path
+                                        d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                                    />
+                                </svg>
+                            </button>
                             <a
                                 href="#"
                                 id="sbt-link"
@@ -611,10 +712,25 @@
                     </div>
                     <div class="contract-detail">
                         <span class="contract-label">Owner:</span>
-                        <div>
+                        <div class="contract-address-group">
                             <span class="contract-address" id="sbt-owner"
                                 >Loading...</span
                             >
+                            <button
+                                class="copy-btn"
+                                onclick="copyOwner('sbt-owner-link', this)"
+                                title="Copy Address"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="currentColor"
+                                >
+                                    <path
+                                        d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                                    />
+                                </svg>
+                            </button>
                             <a
                                 href="#"
                                 id="sbt-owner-link"
@@ -634,10 +750,25 @@
                     </div>
                     <div class="contract-detail">
                         <span class="contract-label">Address:</span>
-                        <div>
+                        <div class="contract-address-group">
                             <span class="contract-address" id="usdt-address"
                                 >Loading...</span
                             >
+                            <button
+                                class="copy-btn"
+                                onclick="copyToClipboard(CONTRACTS.USDT, this)"
+                                title="Copy Address"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="currentColor"
+                                >
+                                    <path
+                                        d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                                    />
+                                </svg>
+                            </button>
                             <a
                                 href="#"
                                 id="usdt-link"
@@ -649,10 +780,25 @@
                     </div>
                     <div class="contract-detail">
                         <span class="contract-label">Owner:</span>
-                        <div>
+                        <div class="contract-address-group">
                             <span class="contract-address" id="usdt-owner"
                                 >Loading...</span
                             >
+                            <button
+                                class="copy-btn"
+                                onclick="copyOwner('usdt-owner-link', this)"
+                                title="Copy Address"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="currentColor"
+                                >
+                                    <path
+                                        d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                                    />
+                                </svg>
+                            </button>
                             <a
                                 href="#"
                                 id="usdt-owner-link"
@@ -672,12 +818,27 @@
                     </div>
                     <div class="contract-detail">
                         <span class="contract-label">Address:</span>
-                        <div>
+                        <div class="contract-address-group">
                             <span
                                 class="contract-address"
                                 id="paymaster-address"
                                 >Loading...</span
                             >
+                            <button
+                                class="copy-btn"
+                                onclick="copyToClipboard(CONTRACTS.PAYMASTER, this)"
+                                title="Copy Address"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="currentColor"
+                                >
+                                    <path
+                                        d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                                    />
+                                </svg>
+                            </button>
                             <a
                                 href="#"
                                 id="paymaster-link"
@@ -699,10 +860,25 @@
                     </div>
                     <div class="contract-detail">
                         <span class="contract-label">Address:</span>
-                        <div>
+                        <div class="contract-address-group">
                             <span class="contract-address" id="factory-address"
                                 >Loading...</span
                             >
+                            <button
+                                class="copy-btn"
+                                onclick="copyToClipboard(CONTRACTS.FACTORY, this)"
+                                title="Copy Address"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="currentColor"
+                                >
+                                    <path
+                                        d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                                    />
+                                </svg>
+                            </button>
                             <a
                                 href="#"
                                 id="factory-link"
@@ -767,7 +943,34 @@
 
             // Format address for display
             function formatAddress(address) {
+                if (!address) return "N/A";
                 return `${address.slice(0, 6)}...${address.slice(-4)}`;
+            }
+
+            // Copy to clipboard function
+            function copyToClipboard(text, element) {
+                navigator.clipboard
+                    .writeText(text)
+                    .then(() => {
+                        const originalContent = element.innerHTML;
+                        element.innerHTML = `✅`;
+                        setTimeout(() => {
+                            element.innerHTML = originalContent;
+                        }, 1500);
+                    })
+                    .catch((err) => {
+                        console.error("Failed to copy: ", err);
+                    });
+            }
+
+            function copyOwner(linkId, element) {
+                const link = document.getElementById(linkId);
+                if (link && link.href.includes("0x")) {
+                    const address = link.href.split("/").pop();
+                    copyToClipboard(address, element);
+                } else {
+                    console.error("Owner address not loaded yet.");
+                }
             }
 
             // Load contract owner
