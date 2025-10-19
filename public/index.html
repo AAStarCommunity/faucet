@@ -370,21 +370,64 @@
                 cursor: pointer;
                 background: none;
                 border: none;
-                padding: 2px;
+                padding: 4px;
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
                 opacity: 0.6;
-                transition: opacity 0.2s;
+                transition: all 0.2s;
+                border-radius: 4px;
+                position: relative;
             }
 
             .copy-btn:hover {
                 opacity: 1;
+                background: rgba(102, 126, 234, 0.1);
+            }
+
+            .copy-btn:active {
+                transform: scale(0.95);
             }
 
             .copy-btn svg {
-                width: 12px;
-                height: 12px;
+                width: 14px;
+                height: 14px;
+                color: #667eea;
+            }
+
+            /* Copy feedback tooltip */
+            .copy-feedback {
+                position: fixed;
+                background: #4caf50;
+                color: white;
+                padding: 8px 16px;
+                border-radius: 6px;
+                font-size: 13px;
+                font-weight: 600;
+                pointer-events: none;
+                z-index: 9999;
+                opacity: 0;
+                transform: translateY(10px);
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            }
+
+            .copy-feedback.show {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .copy-feedback::after {
+                content: "";
+                position: absolute;
+                top: -4px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 0;
+                height: 0;
+                border-left: 6px solid transparent;
+                border-right: 6px solid transparent;
+                border-bottom: 6px solid #4caf50;
             }
 
             .etherscan-btn {
@@ -947,19 +990,46 @@
                 return `${address.slice(0, 6)}...${address.slice(-4)}`;
             }
 
-            // Copy to clipboard function
+            // Copy to clipboard function with floating feedback
             function copyToClipboard(text, element) {
                 navigator.clipboard
                     .writeText(text)
                     .then(() => {
-                        const originalContent = element.innerHTML;
-                        element.innerHTML = `✅`;
+                        // Create feedback tooltip
+                        const feedback = document.createElement("div");
+                        feedback.className = "copy-feedback";
+                        feedback.textContent = "✓ Copied!";
+                        document.body.appendChild(feedback);
+
+                        // Position the feedback near the button
+                        const rect = element.getBoundingClientRect();
+                        feedback.style.left = rect.left + rect.width / 2 + "px";
+                        feedback.style.top = rect.bottom + 8 + "px";
+                        feedback.style.transform =
+                            "translateX(-50%) translateY(10px)";
+
+                        // Show feedback with animation
                         setTimeout(() => {
-                            element.innerHTML = originalContent;
+                            feedback.classList.add("show");
+                        }, 10);
+
+                        // Remove feedback after animation
+                        setTimeout(() => {
+                            feedback.classList.remove("show");
+                            setTimeout(() => {
+                                document.body.removeChild(feedback);
+                            }, 300);
                         }, 1500);
+
+                        // Add visual feedback to button
+                        element.style.transform = "scale(1.1)";
+                        setTimeout(() => {
+                            element.style.transform = "";
+                        }, 200);
                     })
                     .catch((err) => {
                         console.error("Failed to copy: ", err);
+                        alert("Failed to copy to clipboard");
                     });
             }
 
