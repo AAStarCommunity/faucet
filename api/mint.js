@@ -17,20 +17,19 @@ const PNT_ABI = [
 const GTOKEN_ABI = ["function mint(address to, uint256 amount) external"];
 
 // Configuration
-const SEPOLIA_RPC_URL = process.env.SEPOLIA_RPC_URL;
-const OWNER_PRIVATE_KEY = (
-  process.env.SEPOLIA_PRIVATE_KEY_NEW ||
-  process.env.SEPOLIA_PRIVATE_KEY ||
-  ""
-).trim();
-const SBT_ADDRESS =
+const SEPOLIA_RPC_URL = (process.env.SEPOLIA_RPC_URL || "").trim();
+const OWNER_PRIVATE_KEY = (process.env.OWNER_PRIVATE_KEY || "").trim();
+const SBT_ADDRESS = (
   process.env.SBT_CONTRACT_ADDRESS ||
-  "0xBfde68c232F2248114429DDD9a7c3Adbff74bD7f";
-const PNT_ADDRESS =
-  process.env.PNT_TOKEN_ADDRESS || "0xD14E87d8D8B69016Fcc08728c33799bD3F66F180"; // GasTokenV2 (PNTv2)
-const GTOKEN_ADDRESS =
+  "0xBfde68c232F2248114429DDD9a7c3Adbff74bD7f"
+).trim();
+const PNT_ADDRESS = (
+  process.env.PNT_TOKEN_ADDRESS || "0xD14E87d8D8B69016Fcc08728c33799bD3F66F180"
+).trim(); // GasTokenV2 (PNTv2)
+const GTOKEN_ADDRESS = (
   process.env.GTOKEN_CONTRACT_ADDRESS ||
-  "0x868F843723a98c6EECC4BF0aF3352C53d5004147";
+  "0x868F843723a98c6EECC4BF0aF3352C53d5004147"
+).trim();
 
 // Mint amounts
 const PNT_MINT_AMOUNT = ethers.parseUnits("100", 18); // 100 PNT
