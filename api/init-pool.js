@@ -29,11 +29,7 @@ const USDT_ABI = [
 
 // Configuration
 const SEPOLIA_RPC_URL = process.env.SEPOLIA_RPC_URL;
-const OWNER_PRIVATE_KEY = (
-  process.env.SEPOLIA_PRIVATE_KEY_NEW ||
-  process.env.SEPOLIA_PRIVATE_KEY ||
-  ""
-).trim();
+const OWNER_PRIVATE_KEY = (process.env.OWNER_PRIVATE_KEY || "").trim();
 
 const FACTORY_ADDRESS =
   process.env.SIMPLE_ACCOUNT_FACTORY_ADDRESS ||

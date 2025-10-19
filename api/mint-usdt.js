@@ -12,12 +12,10 @@ const USDT_ABI = [
 
 // Configuration
 const SEPOLIA_RPC_URL = process.env.SEPOLIA_RPC_URL;
-const OWNER_PRIVATE_KEY = (
-  process.env.SEPOLIA_PRIVATE_KEY_NEW ||
-  process.env.SEPOLIA_PRIVATE_KEY ||
-  ""
-).trim();
-const USDT_ADDRESS = process.env.USDT_CONTRACT_ADDRESS || "0x14EaC6C3D49AEDff3D59773A7d7bfb50182bCfDc";
+const OWNER_PRIVATE_KEY = (process.env.OWNER_PRIVATE_KEY || "").trim();
+const USDT_ADDRESS =
+  process.env.USDT_CONTRACT_ADDRESS ||
+  "0x14EaC6C3D49AEDff3D59773A7d7bfb50182bCfDc";
 
 // Rate limiting (simple in-memory cache for demo)
 const rateLimitCache = new Map();
@@ -77,7 +75,8 @@ export default async function handler(req, res) {
     // Check rate limit
     if (!checkRateLimit(address)) {
       return res.status(429).json({
-        error: "Rate limit exceeded. Please try again later (max 5 requests per hour)",
+        error:
+          "Rate limit exceeded. Please try again later (max 5 requests per hour)",
       });
     }
 
@@ -119,7 +118,8 @@ export default async function handler(req, res) {
     let statusCode = 500;
 
     if (errorMessage.includes("insufficient funds")) {
-      errorMessage = "Faucet is out of funds. Please contact the administrator.";
+      errorMessage =
+        "Faucet is out of funds. Please contact the administrator.";
     } else if (errorMessage.includes("nonce")) {
       errorMessage = "Transaction conflict. Please try again.";
     }
