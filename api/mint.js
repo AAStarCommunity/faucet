@@ -32,8 +32,8 @@ const GTOKEN_ADDRESS = (
 ).trim();
 
 // Mint amounts
-const PNT_MINT_AMOUNT = ethers.parseUnits("100", 18); // 100 PNT
-const GTOKEN_MINT_AMOUNT = ethers.parseUnits("30", 18); // 30 GToken
+const PNT_MINT_AMOUNT = ethers.parseUnits("1000", 18); // 1000 PNT
+const GTOKEN_MINT_AMOUNT = ethers.parseUnits("300", 18); // 300 GToken
 
 // Rate limiting (simple in-memory cache for demo)
 const rateLimitCache = new Map();
@@ -92,7 +92,7 @@ async function mintPNT(address, provider, signer) {
   return {
     txHash: receipt.hash,
     blockNumber: receipt.blockNumber,
-    amount: "100 PNT",
+    amount: "1000 PNT",
   };
 }
 
@@ -110,7 +110,7 @@ async function mintGToken(address, provider, signer) {
   return {
     txHash: receipt.hash,
     blockNumber: receipt.blockNumber,
-    amount: "30 GToken",
+    amount: "300 GToken",
   };
 }
 
