@@ -1,7 +1,17 @@
 // Vercel Serverless Function for Faucet Minting
 // Mints SBT, PNT, or GToken tokens to user addresses
+// Now uses @aastar/shared-config for contract addresses
 
 const { ethers } = require("ethers");
+const {
+  getCoreContracts,
+  getTokenContracts,
+} = require("@aastar/shared-config");
+
+// Get contract addresses from shared-config
+const network = "sepolia";
+const coreContracts = getCoreContracts(network);
+const tokenContracts = getTokenContracts(network);
 
 // Contract ABIs
 const SBT_ABI = [
@@ -16,19 +26,24 @@ const PNT_ABI = [
 
 const GTOKEN_ABI = ["function mint(address to, uint256 amount) external"];
 
-// Configuration
+// Configuration - Now from shared-config with env var overrides
 const SEPOLIA_RPC_URL = (process.env.SEPOLIA_RPC_URL || "").trim();
 const OWNER_PRIVATE_KEY = (process.env.OWNER_PRIVATE_KEY || "").trim();
+
+// Contract addresses from shared-config (can be overridden by env vars)
 const SBT_ADDRESS = (
-  process.env.SBT_CONTRACT_ADDRESS ||
-  "0xBfde68c232F2248114429DDD9a7c3Adbff74bD7f"
+  process.env.SBT_CONTRACT_ADDRESS || tokenContracts.mySBT
 ).trim();
+
+// For PNT, we keep the old GasTokenV2 for backward compatibility
+// New deployments should use xPNTsFactory to create tokens
 const PNT_ADDRESS = (
-  process.env.PNT_TOKEN_ADDRESS || "0xD14E87d8D8B69016Fcc08728c33799bD3F66F180"
-).trim(); // GasTokenV2 (PNTv2)
+  process.env.PNT_TOKEN_ADDRESS ||
+  "0xD14E87d8D8B69016Fcc08728c33799bD3F66F180" // GasTokenV2 (legacy)
+).trim();
+
 const GTOKEN_ADDRESS = (
-  process.env.GTOKEN_CONTRACT_ADDRESS ||
-  "0x868F843723a98c6EECC4BF0aF3352C53d5004147"
+  process.env.GTOKEN_CONTRACT_ADDRESS || coreContracts.gToken
 ).trim();
 
 // Mint amounts
@@ -79,6 +94,7 @@ async function mintSBT(address, provider, signer) {
     txHash: receipt.hash,
     blockNumber: receipt.blockNumber,
     amount: "1 SBT",
+    contractAddress: SBT_ADDRESS,
   };
 }
 
@@ -93,6 +109,7 @@ async function mintPNT(address, provider, signer) {
     txHash: receipt.hash,
     blockNumber: receipt.blockNumber,
     amount: "1000 PNT",
+    contractAddress: PNT_ADDRESS,
   };
 }
 
@@ -111,6 +128,7 @@ async function mintGToken(address, provider, signer) {
     txHash: receipt.hash,
     blockNumber: receipt.blockNumber,
     amount: "300 GToken",
+    contractAddress: GTOKEN_ADDRESS,
   };
 }
 
@@ -184,9 +202,16 @@ export default async function handler(req, res) {
       txHash: result.txHash,
       blockNumber: result.blockNumber,
       amount: result.amount,
+      contractAddress: result.contractAddress,
       recipient: address,
       type: type,
       network: "Sepolia",
+      note:
+        type === "sbt"
+          ? "Using MySBT v2.3 from @aastar/shared-config"
+          : type === "gtoken"
+            ? "Using GToken from @aastar/shared-config"
+            : "Using legacy PNT token (GasTokenV2)",
     });
   } catch (error) {
     console.error("Mint error:", error);
