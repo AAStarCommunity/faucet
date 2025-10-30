@@ -6,12 +6,14 @@ const { ethers } = require("ethers");
 const {
   getCoreContracts,
   getTokenContracts,
+  getTestTokenContracts,
 } = require("@aastar/shared-config");
 
 // Get contract addresses from shared-config
 const network = "sepolia";
 const coreContracts = getCoreContracts(network);
 const tokenContracts = getTokenContracts(network);
+const testTokenContracts = getTestTokenContracts(network);
 
 // Contract ABIs
 const SBT_ABI = [
@@ -25,6 +27,11 @@ const PNT_ABI = [
 ];
 
 const GTOKEN_ABI = ["function mint(address to, uint256 amount) external"];
+
+const USDT_ABI = [
+  "function mint(address to, uint256 amount) external",
+  "function balanceOf(address owner) external view returns (uint256)",
+];
 
 // Configuration - Now from shared-config with env var overrides
 const SEPOLIA_RPC_URL = (process.env.SEPOLIA_RPC_URL || "").trim();
@@ -46,9 +53,15 @@ const GTOKEN_ADDRESS = (
   process.env.GTOKEN_CONTRACT_ADDRESS || coreContracts.gToken
 ).trim();
 
+// Mock USDT for testing (now in shared-config)
+const USDT_ADDRESS = (
+  process.env.USDT_CONTRACT_ADDRESS || testTokenContracts.mockUSDT
+).trim();
+
 // Mint amounts
 const PNT_MINT_AMOUNT = ethers.parseUnits("1000", 18); // 1000 PNT
 const GTOKEN_MINT_AMOUNT = ethers.parseUnits("300", 18); // 300 GToken
+const USDT_MINT_AMOUNT = ethers.parseUnits("1000", 6); // 1000 USDT (6 decimals)
 
 // Rate limiting (simple in-memory cache for demo)
 const rateLimitCache = new Map();
@@ -132,6 +145,21 @@ async function mintGToken(address, provider, signer) {
   };
 }
 
+async function mintUSDT(address, provider, signer) {
+  const usdtContract = new ethers.Contract(USDT_ADDRESS, USDT_ABI, signer);
+
+  // Mint USDT
+  const tx = await usdtContract.mint(address, USDT_MINT_AMOUNT);
+  const receipt = await tx.wait();
+
+  return {
+    txHash: receipt.hash,
+    blockNumber: receipt.blockNumber,
+    amount: "1000 USDT",
+    contractAddress: USDT_ADDRESS,
+  };
+}
+
 export default async function handler(req, res) {
   // CORS headers
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -162,10 +190,13 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Invalid Ethereum address" });
     }
 
-    if (!["sbt", "pnt", "gtoken"].includes(type)) {
+    if (!["sbt", "pnt", "gtoken", "usdt"].includes(type)) {
       return res
         .status(400)
-        .json({ error: 'Invalid type. Must be "sbt", "pnt", or "gtoken"' });
+        .json({
+          error:
+            'Invalid type. Must be "sbt", "pnt", "gtoken", or "usdt"',
+        });
     }
 
     // Check rate limit
@@ -194,6 +225,8 @@ export default async function handler(req, res) {
       result = await mintPNT(address, provider, signer);
     } else if (type === "gtoken") {
       result = await mintGToken(address, provider, signer);
+    } else if (type === "usdt") {
+      result = await mintUSDT(address, provider, signer);
     }
 
     // Return success response
@@ -211,7 +244,9 @@ export default async function handler(req, res) {
           ? "Using MySBT v2.3 from @aastar/shared-config"
           : type === "gtoken"
             ? "Using GToken from @aastar/shared-config"
-            : "Using legacy PNT token (GasTokenV2)",
+            : type === "usdt"
+              ? "Using Mock USDT from @aastar/shared-config"
+              : "Using legacy PNT token (GasTokenV2)",
     });
   } catch (error) {
     console.error("Mint error:", error);

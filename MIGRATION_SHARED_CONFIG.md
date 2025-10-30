@@ -103,10 +103,33 @@ ADMIN_KEY=your-admin-secret
 
 ### Vercel Deployment
 
+#### Local Configuration (vercel.json)
+✅ All contract addresses have been removed from `vercel.json`
+
+The file now only contains routing configuration. Contract addresses are automatically loaded from `@aastar/shared-config`.
+
+#### Vercel Dashboard Environment Variables
+
+⚠️ **Action Required**: Remove old contract address environment variables from Vercel Dashboard
+
+If you previously set these in Vercel Dashboard, they should be deleted:
+- `SBT_CONTRACT_ADDRESS`
+- `GTOKEN_CONTRACT_ADDRESS`
+- `PNT_TOKEN_ADDRESS`
+- `USDT_CONTRACT_ADDRESS`
+- `SIMPLE_ACCOUNT_FACTORY_ADDRESS`
+- `PAYMASTER_V4_ADDRESS`
+
+See `/Volumes/UltraDisk/Dev2/aastar/VERCEL_ENV_CLEANUP.md` for detailed cleanup instructions.
+
+#### Deploy to Vercel
+
 ```bash
 # Deploy to Vercel
 pnpm deploy
 ```
+
+After deployment, the faucet will automatically use addresses from `@aastar/shared-config`.
 
 ### Verify Contract Addresses
 
