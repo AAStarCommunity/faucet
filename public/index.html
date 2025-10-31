@@ -952,32 +952,47 @@
                     >
                 </p>
                 <p style="margin-top: 5px">
-                    SBT:
+                    MySBT v2.3.3:
                     <a
-                        href="https://sepolia.etherscan.io/address/0xBfde68c232F2248114429DDD9a7c3Adbff74bD7f"
+                        href="https://sepolia.etherscan.io/address/0x3cE0AB2a85Dc4b2B1976AA924CF8047F7afA9324"
                         target="_blank"
-                        >0xBfde...bD7f</a
+                        >0x3cE0...9324</a
                     >
-                    | PNT:
+                    | GToken:
                     <a
-                        href="https://sepolia.etherscan.io/address/0xD14E87d8D8B69016Fcc08728c33799bD3F66F180"
+                        href="https://sepolia.etherscan.io/address/0x868F843723a98c6EECC4BF0aF3352C53d5004147"
                         target="_blank"
-                        >0xD14E...F180</a
+                        >0x868F...4147</a
                     >
-                    (PNTv2)
+                    | Registry v2.1.3:
+                    <a
+                        href="https://sepolia.etherscan.io/address/0xd8f50dcF723Fb6d0Ec555691c3a19E446a3bb765"
+                        target="_blank"
+                        >0xd8f5...b765</a
+                    >
                 </p>
             </div>
         </div>
 
         <script>
-            // Contract addresses
+            // Contract addresses (Updated: 2025-10-30 - shared-config v0.2.7)
             const CONTRACTS = {
-                PNT: "0xD14E87d8D8B69016Fcc08728c33799bD3F66F180",
-                SBT: "0xBfde68c232F2248114429DDD9a7c3Adbff74bD7f",
-                USDT: "0x14EaC6C3D49AEDff3D59773A7d7bfb50182bCfDc",
-                GTOKEN: "0x868F843723a98c6EECC4BF0aF3352C53d5004147",
-                PAYMASTER: "0xBC56D82374c3CdF1234fa67E28AF9d3E31a9D445",
-                FACTORY: "0x8B516A71c134a4b5196775e63b944f88Cc637F2b", // V2 Factory
+                // Core System
+                GTOKEN: "0x868F843723a98c6EECC4BF0aF3352C53d5004147",         // Governance Token (unchanged)
+                GTOKEN_STAKING: "0xB39c0c3c7Fac671Ce26acD7Be5d81192DDc8bB27", // GTokenStaking v2
+                REGISTRY: "0xd8f50dcF723Fb6d0Ec555691c3a19E446a3bb765",       // Registry v2.1.3
+                MYSBT: "0x3cE0AB2a85Dc4b2B1976AA924CF8047F7afA9324",          // MySBT v2.3.3
+
+                // Test Tokens
+                USDT: "0x14EaC6C3D49AEDff3D59773A7d7bfb50182bCfDc",           // Mock USDT (unchanged)
+
+                // Factories
+                XPNTS_FACTORY: "0xC2AFEA0F736403E7e61D3F7C7c6b4E5E63B5cab6",  // xPNTsFactory v1
+                MYSBT_FACTORY: "0x7ffd4b7db8a60015fad77530892505bd69c6b8ec",  // MySBTFactory v1
+
+                // Backward compatibility aliases (faucet still uses old faucet contracts)
+                PNT: "0xD14E87d8D8B69016Fcc08728c33799bD3F66F180",            // Old GasTokenV2 (for faucet compatibility)
+                SBT: "0xBfde68c232F2248114429DDD9a7c3Adbff74bD7f",            // Old MySBT (for faucet compatibility)
             };
 
             const RPC_URL =
@@ -1165,7 +1180,7 @@
             async function loadTreasuryBalance() {
                 const TREASURY_ADDRESS =
                     "0x411BD567E46C0781248dbB6a9211891C032885e5";
-                const PNT_TOKEN = "0xD14E87d8D8B69016Fcc08728c33799bD3F66F180";
+                const PNT_TOKEN = CONTRACTS.PNT; // Use backward-compatible alias
                 const RPC_URL =
                     "https://eth-sepolia.g.alchemy.com/v2/Bx4QRW1-vnwJUePSAAD7N";
 
