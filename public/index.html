@@ -463,6 +463,132 @@
             .footer a:hover {
                 text-decoration: underline;
             }
+
+            /* Contracts Table Styles */
+            .contracts-table-section {
+                background: #f8f9fa;
+                border-radius: 10px;
+                padding: 20px;
+                margin-top: 30px;
+            }
+
+            .table-title {
+                color: #333;
+                font-size: 18px;
+                font-weight: 700;
+                margin-bottom: 15px;
+                text-align: center;
+            }
+
+            .table-container {
+                overflow-x: auto;
+                background: white;
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            #contracts-table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 13px;
+            }
+
+            #contracts-table thead {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+            }
+
+            #contracts-table th {
+                padding: 12px 8px;
+                text-align: left;
+                font-weight: 600;
+                font-size: 12px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            #contracts-table td {
+                padding: 10px 8px;
+                border-bottom: 1px solid #e0e0e0;
+            }
+
+            #contracts-table tbody tr:hover {
+                background: #f8f9fa;
+            }
+
+            #contracts-table tbody tr:last-child td {
+                border-bottom: none;
+            }
+
+            .category-badge {
+                background: #667eea;
+                color: white;
+                padding: 3px 8px;
+                border-radius: 4px;
+                font-size: 11px;
+                font-weight: 600;
+                white-space: nowrap;
+            }
+
+            .category-badge.core {
+                background: #667eea;
+            }
+
+            .category-badge.tokens {
+                background: #f093fb;
+            }
+
+            .category-badge.testTokens {
+                background: #26a69a;
+            }
+
+            .version-badge {
+                background: #4caf50;
+                color: white;
+                padding: 2px 6px;
+                border-radius: 3px;
+                font-size: 11px;
+                font-weight: 600;
+            }
+
+            .address-cell {
+                font-family: "Courier New", monospace;
+                font-size: 11px;
+                color: #333;
+            }
+
+            .table-actions {
+                display: flex;
+                gap: 5px;
+            }
+
+            .table-btn {
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-size: 10px;
+                font-weight: 600;
+                text-decoration: none;
+                transition: all 0.2s;
+                border: none;
+                cursor: pointer;
+                background: #f0f0f0;
+                color: #667eea;
+            }
+
+            .table-btn:hover {
+                background: #667eea;
+                color: white;
+            }
+
+            .table-btn.copy {
+                background: #e3f2fd;
+                color: #2196f3;
+            }
+
+            .table-btn.copy:hover {
+                background: #2196f3;
+                color: white;
+            }
         </style>
     </head>
     <body>
@@ -964,6 +1090,32 @@
                 </div>
             </div>
 
+            <!-- All Contracts Table -->
+            <div class="contracts-table-section">
+                <h2 class="table-title">📋 All Deployed Contracts (v0.2.10)</h2>
+                <div class="table-container">
+                    <table id="contracts-table">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Contract Name</th>
+                                <th>Version</th>
+                                <th>Address</th>
+                                <th>Deployed</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="contracts-table-body">
+                            <tr>
+                                <td colspan="6" style="text-align: center; padding: 20px;">
+                                    Loading contracts from shared-config...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             <div class="footer">
                 <p>
                     Powered by
@@ -972,25 +1124,11 @@
                         target="_blank"
                         >SuperPaymaster</a
                     >
-                </p>
-                <p style="margin-top: 5px">
-                    MySBT v2.4.0:
+                    | Contracts from
                     <a
-                        href="https://sepolia.etherscan.io/address/0x73E635Fc9eD362b7061495372B6eDFF511D9E18F"
+                        href="https://www.npmjs.com/package/@aastar/shared-config"
                         target="_blank"
-                        >0x73E6...9E18F</a
-                    >
-                    | GToken v2.0.0:
-                    <a
-                        href="https://sepolia.etherscan.io/address/0x99cCb70646Be7A5aeE7aF98cE853a1EA1A676DCc"
-                        target="_blank"
-                        >0x99cC...6DCc</a
-                    >
-                    | Registry v2.1.3:
-                    <a
-                        href="https://sepolia.etherscan.io/address/0xb6286F53d8ff25eF99e6a43b2907B8e6BD0f019A"
-                        target="_blank"
-                        >0xb628...019A</a
+                        >@aastar/shared-config v0.2.10</a
                     >
                 </p>
             </div>
@@ -1226,9 +1364,97 @@
                 }
             }
 
+            // Load contracts table from CONTRACT_METADATA
+            function loadContractsTable() {
+                if (!window.CONTRACT_METADATA) {
+                    console.error('CONTRACT_METADATA not loaded');
+                    return;
+                }
+
+                const tbody = document.getElementById('contracts-table-body');
+                tbody.innerHTML = '';
+
+                // Group contracts by category
+                const categories = {
+                    core: [],
+                    tokens: [],
+                    testTokens: []
+                };
+
+                // Sort contracts into categories
+                Object.entries(CONTRACT_METADATA).forEach(([key, contract]) => {
+                    if (contract.category && categories[contract.category]) {
+                        categories[contract.category].push(contract);
+                    }
+                });
+
+                // Render each category
+                Object.entries(categories).forEach(([category, contracts]) => {
+                    if (contracts.length === 0) return;
+
+                    contracts.forEach((contract, index) => {
+                        const row = document.createElement('tr');
+
+                        // Category badge (only show on first item of each category)
+                        const categoryCell = document.createElement('td');
+                        if (index === 0) {
+                            categoryCell.innerHTML = `<span class="category-badge ${category}">${category}</span>`;
+                            categoryCell.rowSpan = contracts.length;
+                        } else {
+                            categoryCell.style.display = 'none';
+                        }
+
+                        // Contract name
+                        const nameCell = document.createElement('td');
+                        nameCell.textContent = contract.name;
+                        nameCell.style.fontWeight = '600';
+
+                        // Version
+                        const versionCell = document.createElement('td');
+                        versionCell.innerHTML = `<span class="version-badge">${contract.version}</span>`;
+
+                        // Address
+                        const addressCell = document.createElement('td');
+                        addressCell.className = 'address-cell';
+                        addressCell.textContent = contract.address;
+
+                        // Deployed date
+                        const deployedCell = document.createElement('td');
+                        deployedCell.textContent = contract.deployedAt;
+                        deployedCell.style.fontSize = '11px';
+                        deployedCell.style.color = '#666';
+
+                        // Actions
+                        const actionsCell = document.createElement('td');
+                        actionsCell.innerHTML = `
+                            <div class="table-actions">
+                                <button class="table-btn copy" onclick="copyToClipboard('${contract.address}', this)" title="Copy Address">
+                                    Copy
+                                </button>
+                                <a href="${ETHERSCAN_BASE}/address/${contract.address}" target="_blank" class="table-btn">
+                                    View
+                                </a>
+                            </div>
+                        `;
+
+                        if (index === 0) row.appendChild(categoryCell);
+                        row.appendChild(nameCell);
+                        row.appendChild(versionCell);
+                        row.appendChild(addressCell);
+                        row.appendChild(deployedCell);
+                        row.appendChild(actionsCell);
+
+                        tbody.appendChild(row);
+                    });
+                });
+
+                console.log('✅ Contracts table loaded:', Object.keys(CONTRACT_METADATA).length, 'contracts');
+            }
+
             window.addEventListener("load", () => {
                 loadTreasuryBalance();
                 loadContractInfo();
+                loadContractsTable();
             });
 
             function showStatus(message, type, txHash = null) {

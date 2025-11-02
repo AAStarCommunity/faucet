@@ -12,6 +12,7 @@ const {
   getTestTokenContracts,
   getPaymasterV4_1,
   getEntryPoint,
+  getAllV2Contracts,
 } = require('@aastar/shared-config');
 
 const network = 'sepolia';
@@ -22,6 +23,31 @@ const tokens = getTokenContracts(network);
 const testTokens = getTestTokenContracts(network);
 const paymasterV4_1 = getPaymasterV4_1(network);
 const entryPoint = getEntryPoint(network);
+
+// Get all V2 contracts with version info
+const allV2Contracts = getAllV2Contracts(network);
+
+// Add category field to each contract
+const categoryMap = {
+  // Core
+  'GToken': 'core',
+  'SuperPaymasterV2': 'core',
+  'Registry': 'core',
+  'GTokenStaking': 'core',
+  'PaymasterFactory': 'core',
+  // Tokens
+  'MySBT': 'tokens',
+  'xPNTsFactory': 'tokens',
+  // Test Tokens
+  'Mock USDT': 'testTokens',
+  'aPNTs': 'testTokens',
+  'bPNTs': 'testTokens',
+};
+
+const contractsWithCategory = allV2Contracts.map(contract => ({
+  ...contract,
+  category: categoryMap[contract.name] || 'other'
+}));
 
 // Build contracts object
 const contracts = {
@@ -53,21 +79,25 @@ const contracts = {
   SBT: '0xBfde68c232F2248114429DDD9a7c3Adbff74bD7f', // Old MySBT (legacy)
 };
 
-// Generate JavaScript file
+// Generate JavaScript file with version info
 const output = `// Auto-generated from @aastar/shared-config v0.2.10
 // DO NOT EDIT MANUALLY - Run 'npm run build:contracts' to regenerate
 // Generated at: ${new Date().toISOString()}
 
 const CONTRACTS = ${JSON.stringify(contracts, null, 2)};
 
+// Contract metadata with version info and categories
+const CONTRACT_METADATA = ${JSON.stringify(contractsWithCategory, null, 2)};
+
 // Export for use in browser
 if (typeof window !== 'undefined') {
   window.CONTRACTS = CONTRACTS;
+  window.CONTRACT_METADATA = CONTRACT_METADATA;
 }
 
 // Export for CommonJS/ES modules
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = CONTRACTS;
+  module.exports = { CONTRACTS, CONTRACT_METADATA };
 }
 `;
 
