@@ -19,7 +19,7 @@
   "author": "AAStarCommunity",
   "license": "MIT",
   "dependencies": {
-    "@aastar/shared-config": "^0.2.10",
+    "@aastar/shared-config": "^0.2.11",
     "ethers": "^6.15.0"
   },
   "devDependencies": {
