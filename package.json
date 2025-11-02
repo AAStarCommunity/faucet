@@ -4,7 +4,9 @@
   "description": "GasToken Faucet - Free SBT and PNT tokens on Sepolia",
   "main": "api/mint.js",
   "scripts": {
-    "deploy": "vercel --prod"
+    "build:contracts": "node scripts/generate-contracts.js",
+    "prebuild": "npm run build:contracts",
+    "deploy": "npm run build:contracts && vercel --prod"
   },
   "keywords": [
     "faucet",

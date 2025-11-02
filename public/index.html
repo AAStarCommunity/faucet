@@ -645,23 +645,21 @@
                     </div>
                 </div>
 
-                <!-- PNT Token -->
+                <!-- aPNTs Token (AAStar Gas Token) -->
                 <div class="contract-item">
                     <div class="contract-header">
-                        <span class="contract-name">
-                            PNT Token (GasTokenV2)</span
-                        >
+                        <span class="contract-name">aPNTs (AAStar Gas Token)</span>
                         <span class="contract-badge">ERC-20</span>
                     </div>
                     <div class="contract-detail">
                         <span class="contract-label">Address:</span>
                         <div class="contract-address-group">
-                            <span class="contract-address" id="pnt-address"
+                            <span class="contract-address" id="apnts-address"
                                 >Loading...</span
                             >
                             <button
                                 class="copy-btn"
-                                onclick="copyToClipboard(CONTRACTS.PNT, this)"
+                                onclick="copyToClipboard(CONTRACTS.APNTS, this)"
                                 title="Copy Address"
                             >
                                 <svg
@@ -676,7 +674,7 @@
                             </button>
                             <a
                                 href="#"
-                                id="pnt-link"
+                                id="apnts-link"
                                 target="_blank"
                                 class="etherscan-btn"
                                 >View →</a
@@ -684,14 +682,30 @@
                         </div>
                     </div>
                     <div class="contract-detail">
-                        <span class="contract-label">Owner:</span>
+                        <span class="contract-label">Community:</span>
+                        <span
+                            class="contract-address"
+                            style="color: #667eea; font-weight: 600"
+                            >AAStar Community</span
+                        >
+                    </div>
+                </div>
+
+                <!-- bPNTs Token (BuilderDAO Gas Token) -->
+                <div class="contract-item">
+                    <div class="contract-header">
+                        <span class="contract-name">bPNTs (BuilderDAO Gas Token)</span>
+                        <span class="contract-badge">ERC-20</span>
+                    </div>
+                    <div class="contract-detail">
+                        <span class="contract-label">Address:</span>
                         <div class="contract-address-group">
-                            <span class="contract-address" id="pnt-owner"
+                            <span class="contract-address" id="bpnts-address"
                                 >Loading...</span
                             >
                             <button
                                 class="copy-btn"
-                                onclick="copyOwner('pnt-owner-link', this)"
+                                onclick="copyToClipboard(CONTRACTS.BPNTS, this)"
                                 title="Copy Address"
                             >
                                 <svg
@@ -706,12 +720,20 @@
                             </button>
                             <a
                                 href="#"
-                                id="pnt-owner-link"
+                                id="bpnts-link"
                                 target="_blank"
                                 class="etherscan-btn"
                                 >View →</a
                             >
                         </div>
+                    </div>
+                    <div class="contract-detail">
+                        <span class="contract-label">Community:</span>
+                        <span
+                            class="contract-address"
+                            style="color: #667eea; font-weight: 600"
+                            >BuilderDAO Community</span
+                        >
                     </div>
                 </div>
 
@@ -974,33 +996,10 @@
             </div>
         </div>
 
+        <!-- Load contract addresses from shared-config -->
+        <script src="contracts.js"></script>
+
         <script>
-            // Contract addresses (Updated: 2025-11-01 - shared-config v0.2.10)
-            const CONTRACTS = {
-                // Core System v0.2.10
-                GTOKEN: "0x99cCb70646Be7A5aeE7aF98cE853a1EA1A676DCc",         // GToken v2.0.0
-                GTOKEN_STAKING: "0x60Bd54645b0fDabA1114B701Df6f33C4ecE87fEa", // GTokenStaking v2.0.0
-                REGISTRY: "0xb6286F53d8ff25eF99e6a43b2907B8e6BD0f019A",       // Registry v2.1.3
-                MYSBT: "0x73E635Fc9eD362b7061495372B6eDFF511D9E18F",          // MySBT v2.4.0
-                SUPER_PAYMASTER_V2: "0x95B20d8FdF173a1190ff71e41024991B2c5e58eF", // SuperPaymasterV2 v2.0.0
-                PAYMASTER_FACTORY: "0x65Cf6C4ab3d40f3C919b6F3CADC09Efb72817920", // PaymasterFactory v1.0.0
-
-                // Test Tokens
-                USDT: "0x14EaC6C3D49AEDff3D59773A7d7bfb50182bCfDc",           // Mock USDT v2.0.0
-                APNTS: "0xBD0710596010a157B88cd141d797E8Ad4bb2306b",          // aPNTs v2.0.0 (AAStar gas token)
-                BPNTS: "0xF223660d24c436B5BfadFEF68B5051bf45E7C995",          // bPNTs v2.0.0 (BuilderDAO gas token)
-
-                // Factories
-                XPNTS_FACTORY: "0x9dD72cB42427fC9F7Bf0c949DB7def51ef29D6Bd",  // xPNTsFactory v2.0.0
-
-                // Paymaster
-                PAYMASTER_V4_1: "0x4D6A367aA183903968833Ec4AE361CFc8dDDBA38",  // PaymasterV4_1 (AOA mode)
-
-                // Backward compatibility aliases (faucet still uses old faucet contracts)
-                PNT: "0xD14E87d8D8B69016Fcc08728c33799bD3F66F180",            // Old GasTokenV2 (for faucet compatibility)
-                SBT: "0xBfde68c232F2248114429DDD9a7c3Adbff74bD7f",            // Old MySBT (for faucet compatibility)
-            };
-
             const RPC_URL =
                 "https://eth-sepolia.g.alchemy.com/v2/Bx4QRW1-vnwJUePSAAD7N";
             const ETHERSCAN_BASE = "https://sepolia.etherscan.io";
@@ -1115,23 +1114,17 @@
                         "none";
                 }
 
-                // PNT Token
-                document.getElementById("pnt-address").textContent =
-                    formatAddress(CONTRACTS.PNT);
-                document.getElementById("pnt-link").href =
-                    `${ETHERSCAN_BASE}/address/${CONTRACTS.PNT}`;
+                // aPNTs Token (AAStar Gas Token)
+                document.getElementById("apnts-address").textContent =
+                    formatAddress(CONTRACTS.APNTS);
+                document.getElementById("apnts-link").href =
+                    `${ETHERSCAN_BASE}/address/${CONTRACTS.APNTS}`;
 
-                const pntOwner = await getContractOwner(CONTRACTS.PNT);
-                if (pntOwner) {
-                    document.getElementById("pnt-owner").textContent =
-                        formatAddress(pntOwner);
-                    document.getElementById("pnt-owner-link").href =
-                        `${ETHERSCAN_BASE}/address/${pntOwner}`;
-                } else {
-                    document.getElementById("pnt-owner").textContent = "N/A";
-                    document.getElementById("pnt-owner-link").style.display =
-                        "none";
-                }
+                // bPNTs Token (BuilderDAO Gas Token)
+                document.getElementById("bpnts-address").textContent =
+                    formatAddress(CONTRACTS.BPNTS);
+                document.getElementById("bpnts-link").href =
+                    `${ETHERSCAN_BASE}/address/${CONTRACTS.BPNTS}`;
 
                 // SBT Token
                 document.getElementById("sbt-address").textContent =
@@ -1169,17 +1162,29 @@
                         "none";
                 }
 
-                // Paymaster
-                document.getElementById("paymaster-address").textContent =
-                    formatAddress(CONTRACTS.PAYMASTER);
-                document.getElementById("paymaster-link").href =
-                    `${ETHERSCAN_BASE}/address/${CONTRACTS.PAYMASTER}`;
+                // SuperPaymaster V2
+                if (CONTRACTS.SUPER_PAYMASTER_V2) {
+                    document.getElementById("paymaster-address").textContent =
+                        formatAddress(CONTRACTS.SUPER_PAYMASTER_V2);
+                    document.getElementById("paymaster-link").href =
+                        `${ETHERSCAN_BASE}/address/${CONTRACTS.SUPER_PAYMASTER_V2}`;
+                }
 
-                // Factory
-                document.getElementById("factory-address").textContent =
-                    formatAddress(CONTRACTS.FACTORY);
-                document.getElementById("factory-link").href =
-                    `${ETHERSCAN_BASE}/address/${CONTRACTS.FACTORY}`;
+                // EntryPoint (Factory display removed, using official EntryPoint instead)
+                if (CONTRACTS.ENTRYPOINT) {
+                    const factoryEl = document.getElementById("factory-address");
+                    const factoryLinkEl = document.getElementById("factory-link");
+                    if (factoryEl && factoryLinkEl) {
+                        factoryEl.textContent = formatAddress(CONTRACTS.ENTRYPOINT);
+                        factoryLinkEl.href = `${ETHERSCAN_BASE}/address/${CONTRACTS.ENTRYPOINT}`;
+                        // Update label
+                        const factoryItem = factoryEl.closest('.contract-item');
+                        if (factoryItem) {
+                            const nameEl = factoryItem.querySelector('.contract-name');
+                            if (nameEl) nameEl.textContent = 'EntryPoint v0.7';
+                        }
+                    }
+                }
             }
 
             // Load treasury balance on page load
