@@ -5,8 +5,8 @@
   "main": "api/mint.js",
   "scripts": {
     "build:contracts": "node scripts/generate-contracts.js",
-    "prebuild": "npm run build:contracts",
-    "deploy": "npm run build:contracts && vercel --prod"
+    "prebuild": "pnpm run build:contracts",
+    "deploy": "pnpm run build:contracts && vercel --prod"
   },
   "keywords": [
     "faucet",

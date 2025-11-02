@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "buildCommand": "npm run build:contracts",
-  "installCommand": "npm install",
+  "buildCommand": "pnpm run build:contracts",
+  "installCommand": "pnpm install",
   "routes": [
     {
       "src": "/api/(.*)",
