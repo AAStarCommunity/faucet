@@ -95,10 +95,14 @@ const CONTRACTS = ${JSON.stringify(contracts, null, 2)};
 // Contract metadata with version info and categories
 const CONTRACT_METADATA = ${JSON.stringify(contractsWithCategory, null, 2)};
 
+// Version string for display in UI
+const SHARED_CONFIG_VERSION = '${SHARED_CONFIG_VERSION}';
+
 // Export for use in browser
 if (typeof window !== 'undefined') {
   window.CONTRACTS = CONTRACTS;
   window.CONTRACT_METADATA = CONTRACT_METADATA;
+  window.SHARED_CONFIG_VERSION = SHARED_CONFIG_VERSION;
 }
 
 // Export for CommonJS/ES modules

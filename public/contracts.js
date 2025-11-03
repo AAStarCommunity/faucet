@@ -1,6 +1,6 @@
 // Auto-generated from @aastar/shared-config v0.2.14
 // DO NOT EDIT MANUALLY - Run 'npm run build:contracts' to regenerate
-// Generated at: 2025-11-03T05:12:56.098Z
+// Generated at: 2025-11-03T05:20:53.964Z
 
 const CONTRACTS = {
   "GTOKEN": "0x99cCb70646Be7A5aeE7aF98cE853a1EA1A676DCc",
@@ -188,10 +188,14 @@ const CONTRACT_METADATA = [
   }
 ];
 
+// Version string for display in UI
+const SHARED_CONFIG_VERSION = '0.2.14';
+
 // Export for use in browser
 if (typeof window !== 'undefined') {
   window.CONTRACTS = CONTRACTS;
   window.CONTRACT_METADATA = CONTRACT_METADATA;
+  window.SHARED_CONFIG_VERSION = SHARED_CONFIG_VERSION;
 }
 
 // Export for CommonJS/ES modules

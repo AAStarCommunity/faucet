@@ -1124,7 +1124,7 @@
 
             <!-- All Contracts Table -->
             <div class="contracts-table-section">
-                <h2 class="table-title">📋 All Deployed Contracts (v0.2.10)</h2>
+                <h2 class="table-title">📋 All Deployed Contracts (v<span id="version-in-title">0.2.10</span>)</h2>
                 <div class="table-container">
                     <table id="contracts-table">
                         <thead>
@@ -1160,7 +1160,7 @@
                     <a
                         href="https://www.npmjs.com/package/@aastar/shared-config"
                         target="_blank"
-                        >@aastar/shared-config v0.2.10</a
+                        >@aastar/shared-config v<span id="version-in-footer">0.2.10</span></a
                     >
                 </p>
             </div>
@@ -1168,6 +1168,17 @@
 
         <!-- Load contract addresses from shared-config -->
         <script src="contracts.js"></script>
+
+        <!-- Update version number dynamically -->
+        <script>
+            // Update version display from SHARED_CONFIG_VERSION
+            if (typeof window.SHARED_CONFIG_VERSION !== 'undefined') {
+                const titleSpan = document.getElementById('version-in-title');
+                const footerSpan = document.getElementById('version-in-footer');
+                if (titleSpan) titleSpan.textContent = window.SHARED_CONFIG_VERSION;
+                if (footerSpan) footerSpan.textContent = window.SHARED_CONFIG_VERSION;
+            }
+        </script>
 
         <script>
             const RPC_URL =
