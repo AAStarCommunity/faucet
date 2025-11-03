@@ -1,6 +1,6 @@
-// Auto-generated from @aastar/shared-config v0.2.14
+// Auto-generated from @aastar/shared-config v0.2.15
 // DO NOT EDIT MANUALLY - Run 'npm run build:contracts' to regenerate
-// Generated at: 2025-11-03T05:31:13.335Z
+// Generated at: 2025-11-03T05:36:38.300Z
 
 const CONTRACTS = {
   "GTOKEN": "0x99cCb70646Be7A5aeE7aF98cE853a1EA1A676DCc",
@@ -148,7 +148,7 @@ const CONTRACT_METADATA = [
     "name": "bPNTs",
     "version": "2.0.0",
     "versionCode": 20000,
-    "deployedAt": "2025-11-01",
+    "deployedAt": "2025-11-03",
     "address": "0x70Da2c1B7Fcf471247Bc3B09f8927a4ab1751Ba3",
     "features": [
       "VERSION interface",
@@ -189,7 +189,7 @@ const CONTRACT_METADATA = [
 ];
 
 // Version string for display in UI
-const SHARED_CONFIG_VERSION = '0.2.14';
+const SHARED_CONFIG_VERSION = '0.2.15';
 
 // Export for use in browser
 if (typeof window !== 'undefined') {

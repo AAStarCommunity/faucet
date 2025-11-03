@@ -13,7 +13,6 @@ const {
   getPaymasterV4_1,
   getEntryPoint,
   getAllV2Contracts,
-  getCommunities,
 } = require('@aastar/shared-config');
 
 // Get shared-config version from package.json
@@ -51,29 +50,11 @@ const categoryMap = {
   'bPNTs': 'testTokens',
 };
 
-// Add category field and fix bPNTs metadata (shared-config CONTRACT_METADATA not updated yet)
-const breadCommunity = getCommunities(network).breadCommunity;
-const contractMetadata = allV2Contracts.map(contract => {
-  const withCategory = {
-    ...contract,
-    category: categoryMap[contract.name] || 'other'
-  };
-
-  // Fix bPNTs to use breadCommunity instead of BuilderDAO
-  if (contract.name === 'bPNTs') {
-    return {
-      ...withCategory,
-      address: breadCommunity.gasToken,
-      features: [
-        'VERSION interface',
-        'BreadCommunity gas token',
-        'Test token for development',
-        'Auto-approved spenders'
-      ]
-    };
-  }
-  return withCategory;
-});
+// Add category field to each contract
+const contractMetadata = allV2Contracts.map(contract => ({
+  ...contract,
+  category: categoryMap[contract.name] || 'other'
+}));
 
 // Build contracts object
 const contracts = {
