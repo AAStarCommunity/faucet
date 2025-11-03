@@ -62,7 +62,7 @@ const USDT_ADDRESS = (
 
 // Mint amounts
 const APNTS_MINT_AMOUNT = ethers.parseUnits("1000", 18); // 1000 aPNTs
-const BPNTS_MINT_AMOUNT = ethers.parseUnits("100", 18); // 100 bPNTs
+const BPNTS_MINT_AMOUNT = ethers.parseUnits("1000", 18); // 1000 bPNTs
 const GTOKEN_MINT_AMOUNT = ethers.parseUnits("300", 18); // 300 GToken
 const USDT_MINT_AMOUNT = ethers.parseUnits("1000", 6); // 1000 USDT (6 decimals)
 
@@ -129,7 +129,7 @@ async function mintPNT(address, provider, signer) {
     txHash: apntsReceipt.hash,
     txHash2: bpntsReceipt.hash,
     blockNumber: apntsReceipt.blockNumber,
-    amount: "1000 aPNTs + 100 bPNTs",
+    amount: "1000 aPNTs + 1000 bPNTs",
     contractAddress: APNTS_ADDRESS,
     contractAddress2: BPNTS_ADDRESS,
   };
