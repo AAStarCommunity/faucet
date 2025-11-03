@@ -1,7 +1,9 @@
 // Vercel Serverless Function for Creating SimpleAccount via Factory
 // Creates a new SimpleAccount using SimpleAccountFactory
+// Contract addresses from @aastar/shared-config
 
 const { ethers } = require("ethers");
+const { getSimpleAccountFactory } = require("@aastar/shared-config");
 
 // SimpleAccountFactory ABI
 const FACTORY_ABI = [
@@ -15,7 +17,7 @@ const OWNER_PRIVATE_KEY = (process.env.OWNER_PRIVATE_KEY || "").trim();
 const OWNER2_PRIVATE_KEY = (process.env.OWNER2_PRIVATE_KEY || "").trim();
 const FACTORY_ADDRESS =
   process.env.SIMPLE_ACCOUNT_FACTORY_ADDRESS ||
-  "0x8B516A71c134a4b5196775e63b944f88Cc637F2b";
+  getSimpleAccountFactory("sepolia");
 
 // Rate limiting (simple in-memory cache for demo)
 const rateLimitCache = new Map();

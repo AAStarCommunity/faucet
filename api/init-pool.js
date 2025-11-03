@@ -1,10 +1,16 @@
 // Vercel Serverless Function for Initializing Test Account Pool
-// Generates 20 pre-configured test accounts with SBT + 100 PNT + 10 USDT each
+// Generates 20 pre-configured test accounts with SBT + PNTs + 10 USDT each
 // Outputs to test-accounts-pool.json
+// Contract addresses from @aastar/shared-config
 
 const { ethers } = require("ethers");
 const fs = require("fs");
 const path = require("path");
+const {
+  getSimpleAccountFactory,
+  getTokenContracts,
+  getTestTokenContracts,
+} = require("@aastar/shared-config");
 
 // Contract ABIs
 const FACTORY_ABI = [
@@ -27,21 +33,24 @@ const USDT_ABI = [
   "function balanceOf(address owner) external view returns (uint256)",
 ];
 
+// Get contract addresses from shared-config
+const tokens = getTokenContracts("sepolia");
+const testTokens = getTestTokenContracts("sepolia");
+
 // Configuration
 const SEPOLIA_RPC_URL = process.env.SEPOLIA_RPC_URL;
 const OWNER_PRIVATE_KEY = (process.env.OWNER_PRIVATE_KEY || "").trim();
 
 const FACTORY_ADDRESS =
   process.env.SIMPLE_ACCOUNT_FACTORY_ADDRESS ||
-  "0x8B516A71c134a4b5196775e63b944f88Cc637F2b";
+  getSimpleAccountFactory("sepolia");
 const SBT_ADDRESS =
-  process.env.SBT_CONTRACT_ADDRESS ||
-  "0xBfde68c232F2248114429DDD9a7c3Adbff74bD7f";
-const PNT_ADDRESS =
-  process.env.PNT_TOKEN_ADDRESS || "0xD14E87d8D8B69016Fcc08728c33799bD3F66F180";
+  process.env.SBT_CONTRACT_ADDRESS || tokens.mySBT;
+// Using aPNTs and bPNTs from xPNTsFactory instead of old PNT
+const APNTS_ADDRESS = testTokens.aPNTs;
+const BPNTS_ADDRESS = testTokens.bPNTs;
 const USDT_ADDRESS =
-  process.env.USDT_CONTRACT_ADDRESS ||
-  "0x14EaC6C3D49AEDff3D59773A7d7bfb50182bCfDc";
+  process.env.USDT_CONTRACT_ADDRESS || testTokens.mockUSDT;
 
 const PNT_MINT_AMOUNT = ethers.parseUnits("100", 18); // 100 PNT
 const POOL_SIZE = 20;
@@ -85,12 +94,14 @@ async function createAccountForOwner(owner, salt, factoryContract, provider) {
 async function mintTokensToAccount(
   accountAddress,
   sbtContract,
-  pntContract,
+  apntsContract,
+  bpntsContract,
   usdtContract,
 ) {
   const results = {
     sbt: null,
-    pnt: null,
+    apnts: null,
+    bpnts: null,
     usdt: null,
   };
 
@@ -109,12 +120,21 @@ async function mintTokensToAccount(
   }
 
   try {
-    // Mint PNT
-    const pntTx = await pntContract.mint(accountAddress, PNT_MINT_AMOUNT);
-    const pntReceipt = await pntTx.wait();
-    results.pnt = { success: true, txHash: pntReceipt.hash };
+    // Mint aPNTs
+    const apntsTx = await apntsContract.mint(accountAddress, PNT_MINT_AMOUNT);
+    const apntsReceipt = await apntsTx.wait();
+    results.apnts = { success: true, txHash: apntsReceipt.hash };
   } catch (error) {
-    results.pnt = { success: false, error: error.message };
+    results.apnts = { success: false, error: error.message };
+  }
+
+  try {
+    // Mint bPNTs
+    const bpntsTx = await bpntsContract.mint(accountAddress, PNT_MINT_AMOUNT);
+    const bpntsReceipt = await bpntsTx.wait();
+    results.bpnts = { success: true, txHash: bpntsReceipt.hash };
+  } catch (error) {
+    results.bpnts = { success: false, error: error.message };
   }
 
   try {
@@ -163,7 +183,8 @@ export default async function handler(req, res) {
       signer,
     );
     const sbtContract = new ethers.Contract(SBT_ADDRESS, SBT_ABI, signer);
-    const pntContract = new ethers.Contract(PNT_ADDRESS, PNT_ABI, signer);
+    const apntsContract = new ethers.Contract(APNTS_ADDRESS, PNT_ABI, signer);
+    const bpntsContract = new ethers.Contract(BPNTS_ADDRESS, PNT_ABI, signer);
     const usdtContract = new ethers.Contract(USDT_ADDRESS, USDT_ABI, signer);
 
     const accounts = [];
@@ -197,12 +218,14 @@ export default async function handler(req, res) {
         const tokenResults = await mintTokensToAccount(
           accountResult.accountAddress,
           sbtContract,
-          pntContract,
+          apntsContract,
+          bpntsContract,
           usdtContract,
         );
 
         console.log(`  ✓ SBT: ${tokenResults.sbt.success ? "✓" : "✗"}`);
-        console.log(`  ✓ PNT: ${tokenResults.pnt.success ? "✓" : "✗"}`);
+        console.log(`  ✓ aPNTs: ${tokenResults.apnts.success ? "✓" : "✗"}`);
+        console.log(`  ✓ bPNTs: ${tokenResults.bpnts.success ? "✓" : "✗"}`);
         console.log(`  ✓ USDT: ${tokenResults.usdt.success ? "✓" : "✗"}`);
 
         // Add to results
@@ -240,7 +263,8 @@ export default async function handler(req, res) {
       configuration: {
         factoryAddress: FACTORY_ADDRESS,
         sbtAddress: SBT_ADDRESS,
-        pntAddress: PNT_ADDRESS,
+        apntsAddress: APNTS_ADDRESS,
+        bpntsAddress: BPNTS_ADDRESS,
         usdtAddress: USDT_ADDRESS,
         poolSize: POOL_SIZE,
       },

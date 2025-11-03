@@ -1,7 +1,9 @@
 // Vercel Serverless Function for Minting Mock USDT
 // Mints 10 USDT to user addresses
+// Contract addresses from @aastar/shared-config
 
 const { ethers } = require("ethers");
+const { getTestTokenContracts } = require("@aastar/shared-config");
 
 // Mock USDT ABI
 const USDT_ABI = [
@@ -10,12 +12,14 @@ const USDT_ABI = [
   "function decimals() external view returns (uint8)",
 ];
 
+// Get contract addresses from shared-config
+const testTokens = getTestTokenContracts("sepolia");
+
 // Configuration
 const SEPOLIA_RPC_URL = process.env.SEPOLIA_RPC_URL;
 const OWNER_PRIVATE_KEY = (process.env.OWNER_PRIVATE_KEY || "").trim();
 const USDT_ADDRESS =
-  process.env.USDT_CONTRACT_ADDRESS ||
-  "0x14EaC6C3D49AEDff3D59773A7d7bfb50182bCfDc";
+  process.env.USDT_CONTRACT_ADDRESS || testTokens.mockUSDT;
 
 // Rate limiting (simple in-memory cache for demo)
 const rateLimitCache = new Map();
