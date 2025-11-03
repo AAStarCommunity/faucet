@@ -13,6 +13,7 @@ const {
   getPaymasterV4_1,
   getEntryPoint,
   getAllV2Contracts,
+  getCommunities,
 } = require('@aastar/shared-config');
 
 // Get shared-config version from package.json
@@ -55,6 +56,25 @@ const contractsWithCategory = allV2Contracts.map(contract => ({
   category: categoryMap[contract.name] || 'other'
 }));
 
+// Fix bPNTs metadata to use breadCommunity instead of BuilderDAO
+// (shared-config CONTRACT_METADATA hasn't been updated yet)
+const breadCommunity = getCommunities(network).breadCommunity;
+const fixedContracts = contractsWithCategory.map(contract => {
+  if (contract.name === 'bPNTs') {
+    return {
+      ...contract,
+      address: breadCommunity.gasToken,
+      features: [
+        'VERSION interface',
+        'BreadCommunity gas token',
+        'Test token for development',
+        'Auto-approved spenders'
+      ]
+    };
+  }
+  return contract;
+});
+
 // Build contracts object
 const contracts = {
   // Core System from shared-config
@@ -93,7 +113,7 @@ const output = `// Auto-generated from @aastar/shared-config v${SHARED_CONFIG_VE
 const CONTRACTS = ${JSON.stringify(contracts, null, 2)};
 
 // Contract metadata with version info and categories
-const CONTRACT_METADATA = ${JSON.stringify(contractsWithCategory, null, 2)};
+const CONTRACT_METADATA = ${JSON.stringify(fixedContracts, null, 2)};
 
 // Version string for display in UI
 const SHARED_CONFIG_VERSION = '${SHARED_CONFIG_VERSION}';

@@ -1,6 +1,6 @@
 // Auto-generated from @aastar/shared-config v0.2.14
 // DO NOT EDIT MANUALLY - Run 'npm run build:contracts' to regenerate
-// Generated at: 2025-11-03T05:20:53.964Z
+// Generated at: 2025-11-03T05:28:44.647Z
 
 const CONTRACTS = {
   "GTOKEN": "0x99cCb70646Be7A5aeE7aF98cE853a1EA1A676DCc",
@@ -149,10 +149,10 @@ const CONTRACT_METADATA = [
     "version": "2.0.0",
     "versionCode": 20000,
     "deployedAt": "2025-11-01",
-    "address": "0xF223660d24c436B5BfadFEF68B5051bf45E7C995",
+    "address": "0x70Da2c1B7Fcf471247Bc3B09f8927a4ab1751Ba3",
     "features": [
       "VERSION interface",
-      "BuilderDAO community gas token",
+      "BreadCommunity gas token",
       "Test token for development",
       "Auto-approved spenders"
     ],
