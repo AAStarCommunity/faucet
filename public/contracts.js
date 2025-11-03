@@ -1,6 +1,6 @@
 // Auto-generated from @aastar/shared-config v0.2.14
 // DO NOT EDIT MANUALLY - Run 'npm run build:contracts' to regenerate
-// Generated at: 2025-11-03T05:28:44.647Z
+// Generated at: 2025-11-03T05:31:13.335Z
 
 const CONTRACTS = {
   "GTOKEN": "0x99cCb70646Be7A5aeE7aF98cE853a1EA1A676DCc",

@@ -51,18 +51,18 @@ const categoryMap = {
   'bPNTs': 'testTokens',
 };
 
-const contractsWithCategory = allV2Contracts.map(contract => ({
-  ...contract,
-  category: categoryMap[contract.name] || 'other'
-}));
-
-// Fix bPNTs metadata to use breadCommunity instead of BuilderDAO
-// (shared-config CONTRACT_METADATA hasn't been updated yet)
+// Add category field and fix bPNTs metadata (shared-config CONTRACT_METADATA not updated yet)
 const breadCommunity = getCommunities(network).breadCommunity;
-const fixedContracts = contractsWithCategory.map(contract => {
+const contractMetadata = allV2Contracts.map(contract => {
+  const withCategory = {
+    ...contract,
+    category: categoryMap[contract.name] || 'other'
+  };
+
+  // Fix bPNTs to use breadCommunity instead of BuilderDAO
   if (contract.name === 'bPNTs') {
     return {
-      ...contract,
+      ...withCategory,
       address: breadCommunity.gasToken,
       features: [
         'VERSION interface',
@@ -72,7 +72,7 @@ const fixedContracts = contractsWithCategory.map(contract => {
       ]
     };
   }
-  return contract;
+  return withCategory;
 });
 
 // Build contracts object
@@ -113,7 +113,7 @@ const output = `// Auto-generated from @aastar/shared-config v${SHARED_CONFIG_VE
 const CONTRACTS = ${JSON.stringify(contracts, null, 2)};
 
 // Contract metadata with version info and categories
-const CONTRACT_METADATA = ${JSON.stringify(fixedContracts, null, 2)};
+const CONTRACT_METADATA = ${JSON.stringify(contractMetadata, null, 2)};
 
 // Version string for display in UI
 const SHARED_CONFIG_VERSION = '${SHARED_CONFIG_VERSION}';
