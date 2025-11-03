@@ -15,6 +15,12 @@ const {
   getAllV2Contracts,
 } = require('@aastar/shared-config');
 
+// Get shared-config version from package.json
+const sharedConfigPath = path.dirname(require.resolve('@aastar/shared-config'));
+const sharedConfigPackagePath = path.join(sharedConfigPath, '../package.json');
+const sharedConfigPackage = JSON.parse(fs.readFileSync(sharedConfigPackagePath, 'utf8'));
+const SHARED_CONFIG_VERSION = sharedConfigPackage.version;
+
 const network = 'sepolia';
 
 // Get all contracts from shared-config
@@ -51,7 +57,7 @@ const contractsWithCategory = allV2Contracts.map(contract => ({
 
 // Build contracts object
 const contracts = {
-  // Core System v0.2.10
+  // Core System from shared-config
   GTOKEN: core.gToken,
   GTOKEN_STAKING: core.gTokenStaking,
   REGISTRY: core.registry,
@@ -80,7 +86,7 @@ const contracts = {
 };
 
 // Generate JavaScript file with version info
-const output = `// Auto-generated from @aastar/shared-config v0.2.10
+const output = `// Auto-generated from @aastar/shared-config v${SHARED_CONFIG_VERSION}
 // DO NOT EDIT MANUALLY - Run 'npm run build:contracts' to regenerate
 // Generated at: ${new Date().toISOString()}
 
@@ -105,7 +111,7 @@ if (typeof module !== 'undefined' && module.exports) {
 const outputPath = path.join(__dirname, '../public/contracts.js');
 fs.writeFileSync(outputPath, output, 'utf8');
 
-console.log('✅ Generated contracts.js from shared-config v0.2.10');
+console.log(`✅ Generated contracts.js from shared-config v${SHARED_CONFIG_VERSION}`);
 console.log(`📍 Output: ${outputPath}`);
 console.log('\n📋 Contract Addresses:');
 console.log('─────────────────────────────────────────────────────────');
