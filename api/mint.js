@@ -35,7 +35,8 @@ const USDT_ABI = [
 
 // Configuration - Now from shared-config with env var overrides
 const SEPOLIA_RPC_URL = (process.env.SEPOLIA_RPC_URL || "").trim();
-const OWNER_PRIVATE_KEY = (process.env.OWNER_PRIVATE_KEY || "").trim();
+const OWNER_PRIVATE_KEY = (process.env.OWNER_PRIVATE_KEY || "").trim(); // For aPNTs, GToken
+const OWNER2_PRIVATE_KEY = (process.env.OWNER2_PRIVATE_KEY || "").trim(); // For bPNTs
 
 // Contract addresses from shared-config (can be overridden by env vars)
 const SBT_ADDRESS = (
@@ -114,14 +115,16 @@ async function mintSBT(address, provider, signer) {
   };
 }
 
-async function mintPNT(address, provider, signer) {
-  // Mint aPNTs
-  const apntsContract = new ethers.Contract(APNTS_ADDRESS, PNT_ABI, signer);
+async function mintPNT(address, provider) {
+  // Mint aPNTs (using Deployer 1's private key)
+  const apntsSigner = new ethers.Wallet(OWNER_PRIVATE_KEY, provider);
+  const apntsContract = new ethers.Contract(APNTS_ADDRESS, PNT_ABI, apntsSigner);
   const apntsTx = await apntsContract.mint(address, APNTS_MINT_AMOUNT);
   const apntsReceipt = await apntsTx.wait();
 
-  // Mint bPNTs
-  const bpntsContract = new ethers.Contract(BPNTS_ADDRESS, PNT_ABI, signer);
+  // Mint bPNTs (using OWNER2's private key)
+  const bpntsSigner = new ethers.Wallet(OWNER2_PRIVATE_KEY, provider);
+  const bpntsContract = new ethers.Contract(BPNTS_ADDRESS, PNT_ABI, bpntsSigner);
   const bpntsTx = await bpntsContract.mint(address, BPNTS_MINT_AMOUNT);
   const bpntsReceipt = await bpntsTx.wait();
 
@@ -217,7 +220,7 @@ export default async function handler(req, res) {
     }
 
     // Validate environment variables
-    if (!SEPOLIA_RPC_URL || !OWNER_PRIVATE_KEY) {
+    if (!SEPOLIA_RPC_URL || !OWNER_PRIVATE_KEY || !OWNER2_PRIVATE_KEY) {
       console.error("Missing environment variables");
       return res.status(500).json({ error: "Server configuration error" });
     }
@@ -231,7 +234,7 @@ export default async function handler(req, res) {
     if (type === "sbt") {
       result = await mintSBT(address, provider, signer);
     } else if (type === "pnt") {
-      result = await mintPNT(address, provider, signer);
+      result = await mintPNT(address, provider); // PNT uses both OWNER and OWNER2 keys
     } else if (type === "gtoken") {
       result = await mintGToken(address, provider, signer);
     } else if (type === "usdt") {
