@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "buildCommand": "pnpm run build:contracts",
   "installCommand": "pnpm install",
   "routes": [
     {
