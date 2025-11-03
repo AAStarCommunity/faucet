@@ -42,11 +42,13 @@ const SBT_ADDRESS = (
   process.env.SBT_CONTRACT_ADDRESS || tokenContracts.mySBT
 ).trim();
 
-// For PNT, we keep the old GasTokenV2 for backward compatibility
-// New deployments should use xPNTsFactory to create tokens
-const PNT_ADDRESS = (
-  process.env.PNT_TOKEN_ADDRESS ||
-  "0xD14E87d8D8B69016Fcc08728c33799bD3F66F180" // GasTokenV2 (legacy)
+// For PNT, we now use aPNTs and bPNTs from xPNTsFactory
+const APNTS_ADDRESS = (
+  process.env.APNTS_CONTRACT_ADDRESS || testTokenContracts.aPNTs
+).trim();
+
+const BPNTS_ADDRESS = (
+  process.env.BPNTS_CONTRACT_ADDRESS || testTokenContracts.bPNTs
 ).trim();
 
 const GTOKEN_ADDRESS = (
@@ -59,7 +61,8 @@ const USDT_ADDRESS = (
 ).trim();
 
 // Mint amounts
-const PNT_MINT_AMOUNT = ethers.parseUnits("1000", 18); // 1000 PNT
+const APNTS_MINT_AMOUNT = ethers.parseUnits("1000", 18); // 1000 aPNTs
+const BPNTS_MINT_AMOUNT = ethers.parseUnits("100", 18); // 100 bPNTs
 const GTOKEN_MINT_AMOUNT = ethers.parseUnits("300", 18); // 300 GToken
 const USDT_MINT_AMOUNT = ethers.parseUnits("1000", 6); // 1000 USDT (6 decimals)
 
@@ -112,17 +115,23 @@ async function mintSBT(address, provider, signer) {
 }
 
 async function mintPNT(address, provider, signer) {
-  const pntContract = new ethers.Contract(PNT_ADDRESS, PNT_ABI, signer);
+  // Mint aPNTs
+  const apntsContract = new ethers.Contract(APNTS_ADDRESS, PNT_ABI, signer);
+  const apntsTx = await apntsContract.mint(address, APNTS_MINT_AMOUNT);
+  const apntsReceipt = await apntsTx.wait();
 
-  // Mint PNT
-  const tx = await pntContract.mint(address, PNT_MINT_AMOUNT);
-  const receipt = await tx.wait();
+  // Mint bPNTs
+  const bpntsContract = new ethers.Contract(BPNTS_ADDRESS, PNT_ABI, signer);
+  const bpntsTx = await bpntsContract.mint(address, BPNTS_MINT_AMOUNT);
+  const bpntsReceipt = await bpntsTx.wait();
 
   return {
-    txHash: receipt.hash,
-    blockNumber: receipt.blockNumber,
-    amount: "1000 PNT",
-    contractAddress: PNT_ADDRESS,
+    txHash: apntsReceipt.hash,
+    txHash2: bpntsReceipt.hash,
+    blockNumber: apntsReceipt.blockNumber,
+    amount: "1000 aPNTs + 100 bPNTs",
+    contractAddress: APNTS_ADDRESS,
+    contractAddress2: BPNTS_ADDRESS,
   };
 }
 
@@ -246,7 +255,7 @@ export default async function handler(req, res) {
             ? "Using GToken from @aastar/shared-config"
             : type === "usdt"
               ? "Using Mock USDT from @aastar/shared-config"
-              : "Using legacy PNT token (GasTokenV2)",
+              : "Using aPNTs and bPNTs from @aastar/shared-config",
     });
   } catch (error) {
     console.error("Mint error:", error);

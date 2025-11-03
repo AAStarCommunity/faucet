@@ -615,7 +615,7 @@
     <body>
         <div class="container">
             <h1>💧 GasToken Faucet</h1>
-            <p class="subtitle">Get free SBT, PNT, and GToken on Sepolia</p>
+            <p class="subtitle">Get free SBT, aPNTs, bPNTs, and GToken on Sepolia</p>
 
             <div class="treasury-banner">
                 <div class="treasury-section">
@@ -652,7 +652,7 @@
                 </div>
                 <div class="info-item">
                     <span class="info-label">PNT per mint:</span>
-                    <span class="info-value">1000 PNT</span>
+                    <span class="info-value">1000 aPNTs + 100 bPNTs</span>
                 </div>
                 <div class="info-item">
                     <span class="info-label">GToken per mint:</span>
@@ -689,7 +689,7 @@
             <div class="button-group">
                 <button class="btn-sbt" onclick="mintSBT()">Mint SBT</button>
                 <button class="btn-pnt" onclick="mintPNT()">
-                    Mint 1000 PNT
+                    Mint aPNTs + bPNTs
                 </button>
             </div>
 
@@ -1589,7 +1589,7 @@
                 const button = event.target;
                 button.disabled = true;
                 showStatus(
-                    '<span class="spinner"></span>Minting 1000 PNT...',
+                    '<span class="spinner"></span>Minting 1000 aPNTs + 100 bPNTs...',
                     "loading",
                 );
 
@@ -1612,7 +1612,7 @@
                     }
 
                     showStatus(
-                        `✅ Successfully minted 1000 PNT to ${address}`,
+                        `✅ Successfully minted 1000 aPNTs + 100 bPNTs to ${address}`,
                         "success",
                         data.txHash,
                     );
