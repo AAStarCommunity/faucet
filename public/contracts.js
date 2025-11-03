@@ -1,6 +1,6 @@
 // Auto-generated from @aastar/shared-config v0.2.18
 // DO NOT EDIT MANUALLY - Run 'npm run build:contracts' to regenerate
-// Generated at: 2025-11-03T06:03:15.057Z
+// Generated at: 2025-11-03T06:07:19.841Z
 
 const CONTRACTS = {
   "GTOKEN": "0x99cCb70646Be7A5aeE7aF98cE853a1EA1A676DCc",
@@ -14,9 +14,7 @@ const CONTRACTS = {
   "APNTS": "0xBD0710596010a157B88cd141d797E8Ad4bb2306b",
   "BPNTS": "0x70Da2c1B7Fcf471247Bc3B09f8927a4ab1751Ba3",
   "PAYMASTER_V4_1": "0x4D6A367aA183903968833Ec4AE361CFc8dDDBA38",
-  "ENTRYPOINT": "0x0000000071727De22E5E9d8BAf0edAc6f37da032",
-  "PNT": "0xD14E87d8D8B69016Fcc08728c33799bD3F66F180",
-  "SBT": "0xBfde68c232F2248114429DDD9a7c3Adbff74bD7f"
+  "ENTRYPOINT": "0x0000000071727De22E5E9d8BAf0edAc6f37da032"
 };
 
 // Contract metadata with version info and categories

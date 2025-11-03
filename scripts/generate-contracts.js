@@ -79,11 +79,6 @@ const contracts = {
 
   // Official Contracts
   ENTRYPOINT: entryPoint,
-
-  // Backward compatibility (for legacy faucet functions)
-  // These still use old contracts for minting
-  PNT: '0xD14E87d8D8B69016Fcc08728c33799bD3F66F180', // Old GasTokenV2 (legacy)
-  SBT: '0xBfde68c232F2248114429DDD9a7c3Adbff74bD7f', // Old MySBT (legacy)
 };
 
 // Generate JavaScript file with version info
