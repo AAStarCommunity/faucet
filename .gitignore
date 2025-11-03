@@ -15,5 +15,5 @@ package-lock.json
 
 # OS
 .DS_Store
-# Auto-generated contracts
-public/contracts.js
+# Auto-generated contracts are now committed to ensure Vercel deploys the correct version
+.env*.local
