@@ -1,14 +1,14 @@
-// Auto-generated from @aastar/shared-config v0.2.18
+// Auto-generated from @aastar/shared-config v0.2.23
 // DO NOT EDIT MANUALLY - Run 'npm run build:contracts' to regenerate
-// Generated at: 2025-11-03T06:07:19.841Z
+// Generated at: 2025-11-05T14:24:05.092Z
 
 const CONTRACTS = {
   "GTOKEN": "0x99cCb70646Be7A5aeE7aF98cE853a1EA1A676DCc",
-  "GTOKEN_STAKING": "0x60Bd54645b0fDabA1114B701Df6f33C4ecE87fEa",
+  "GTOKEN_STAKING": "0xbEbF9b4c6a4cDB92Ac184aF211AdB13a0b9BF6c0",
   "REGISTRY": "0xf384c592D5258c91805128291c5D4c069DD30CA6",
   "SUPER_PAYMASTER_V2": "0x95B20d8FdF173a1190ff71e41024991B2c5e58eF",
   "PAYMASTER_FACTORY": "0x65Cf6C4ab3d40f3C919b6F3CADC09Efb72817920",
-  "MYSBT": "0x73E635Fc9eD362b7061495372B6eDFF511D9E18F",
+  "MYSBT": "0xD20F64718485E8aA317c0f353420cdB147661b20",
   "XPNTS_FACTORY": "0x9dD72cB42427fC9F7Bf0c949DB7def51ef29D6Bd",
   "USDT": "0x14EaC6C3D49AEDff3D59773A7d7bfb50182bCfDc",
   "APNTS": "0xBD0710596010a157B88cd141d797E8Ad4bb2306b",
@@ -67,10 +67,10 @@ const CONTRACT_METADATA = [
   },
   {
     "name": "GTokenStaking",
-    "version": "2.0.0",
-    "versionCode": 20000,
-    "deployedAt": "2025-11-01",
-    "address": "0x60Bd54645b0fDabA1114B701Df6f33C4ecE87fEa",
+    "version": "2.0.1",
+    "versionCode": 20001,
+    "deployedAt": "2025-11-05",
+    "address": "0xbEbF9b4c6a4cDB92Ac184aF211AdB13a0b9BF6c0",
     "features": [
       "VERSION interface",
       "User-level slash tracking",
@@ -78,7 +78,8 @@ const CONTRACT_METADATA = [
       "Lock mechanism",
       "Percentage-based exit fee",
       "Multiple locker support",
-      "Uses new GToken v2.0.0"
+      "Uses new GToken v2.0.0",
+      "stakeFor() function - stake on behalf of users"
     ],
     "category": "core"
   },
@@ -114,17 +115,20 @@ const CONTRACT_METADATA = [
   },
   {
     "name": "MySBT",
-    "version": "2.4.0",
-    "versionCode": 20400,
-    "deployedAt": "2025-11-01",
-    "address": "0x73E635Fc9eD362b7061495372B6eDFF511D9E18F",
+    "version": "2.4.2",
+    "versionCode": 20402,
+    "deployedAt": "2025-11-05",
+    "address": "0xD20F64718485E8aA317c0f353420cdB147661b20",
     "features": [
       "VERSION interface",
       "NFT architecture refactor",
       "Soulbound token (SBT)",
       "Time-based reputation",
       "Membership management",
-      "GToken mint fee (burn)"
+      "GToken mint fee (burn)",
+      "safeMint() - DAO-only faucet minting",
+      "mintWithAutoStake() - one-transaction mint with automatic staking",
+      "Optimized under 24KB (24,458 bytes)"
     ],
     "category": "tokens"
   },
@@ -187,7 +191,7 @@ const CONTRACT_METADATA = [
 ];
 
 // Version string for display in UI
-const SHARED_CONFIG_VERSION = '0.2.18';
+const SHARED_CONFIG_VERSION = '0.2.23';
 
 // Export for use in browser
 if (typeof window !== 'undefined') {
