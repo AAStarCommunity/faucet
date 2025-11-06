@@ -1206,6 +1206,9 @@
                 const footerSpan = document.getElementById('version-in-footer');
                 if (titleSpan) titleSpan.textContent = window.SHARED_CONFIG_VERSION;
                 if (footerSpan) footerSpan.textContent = window.SHARED_CONFIG_VERSION;
+                console.log('✅ Version updated to:', window.SHARED_CONFIG_VERSION);
+            } else {
+                console.warn('SHARED_CONFIG_VERSION not found, contracts.js may not be loaded');
             }
         </script>
 

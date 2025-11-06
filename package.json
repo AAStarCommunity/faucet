@@ -5,6 +5,7 @@
   "main": "api/mint.js",
   "scripts": {
     "build:contracts": "node scripts/generate-contracts.js",
+    "update:contracts": "pnpm run build:contracts",
     "prebuild": "pnpm run build:contracts",
     "deploy": "pnpm run build:contracts && vercel --prod"
   },
@@ -19,7 +20,7 @@
   "author": "AAStarCommunity",
   "license": "MIT",
   "dependencies": {
-    "@aastar/shared-config": "^0.2.25",
+    "@aastar/shared-config": "^0.2.26",
     "ethers": "^6.15.0"
   },
   "devDependencies": {

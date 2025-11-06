@@ -16,10 +16,29 @@ const {
 } = require('@aastar/shared-config');
 
 // Get shared-config version from package.json
-const sharedConfigPath = path.dirname(require.resolve('@aastar/shared-config'));
-const sharedConfigPackagePath = path.join(sharedConfigPath, '../package.json');
-const sharedConfigPackage = JSON.parse(fs.readFileSync(sharedConfigPackagePath, 'utf8'));
-const SHARED_CONFIG_VERSION = sharedConfigPackage.version;
+try {
+  // Try to resolve the package.json directly
+  const sharedConfigPackageJson = require.resolve('@aastar/shared-config/package.json');
+  const sharedConfigPackage = JSON.parse(fs.readFileSync(sharedConfigPackageJson, 'utf8'));
+  var SHARED_CONFIG_VERSION = sharedConfigPackage.version;
+  console.log(`📦 Found @aastar/shared-config v${SHARED_CONFIG_VERSION}`);
+} catch (error) {
+  console.error('Error reading shared-config version:', error.message);
+  console.log('🔧 Trying alternative approach...');
+  try {
+    // Fallback: read from node_modules directly
+    const path = require('path');
+    const fs = require('fs');
+    const packagePath = path.join(__dirname, '../node_modules/@aastar/shared-config/package.json');
+    const sharedConfigPackage = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
+    var SHARED_CONFIG_VERSION = sharedConfigPackage.version;
+    console.log(`📦 Found @aastar/shared-config v${SHARED_CONFIG_VERSION} (fallback)`);
+  } catch (fallbackError) {
+    console.error('Fallback also failed:', fallbackError.message);
+    var SHARED_CONFIG_VERSION = '0.2.26'; // Known current version
+    console.log(`📦 Using known version: ${SHARED_CONFIG_VERSION}`);
+  }
+}
 
 const network = 'sepolia';
 

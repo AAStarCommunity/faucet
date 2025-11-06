@@ -1,6 +1,6 @@
-// Auto-generated from @aastar/shared-config v0.2.23
+// Auto-generated from @aastar/shared-config v0.2.26
 // DO NOT EDIT MANUALLY - Run 'npm run build:contracts' to regenerate
-// Generated at: 2025-11-05T14:24:05.092Z
+// Generated at: 2025-11-06T07:35:33.816Z
 
 const CONTRACTS = {
   "GTOKEN": "0x99cCb70646Be7A5aeE7aF98cE853a1EA1A676DCc",
@@ -8,7 +8,7 @@ const CONTRACTS = {
   "REGISTRY": "0xf384c592D5258c91805128291c5D4c069DD30CA6",
   "SUPER_PAYMASTER_V2": "0x95B20d8FdF173a1190ff71e41024991B2c5e58eF",
   "PAYMASTER_FACTORY": "0x65Cf6C4ab3d40f3C919b6F3CADC09Efb72817920",
-  "MYSBT": "0xD20F64718485E8aA317c0f353420cdB147661b20",
+  "MYSBT": "0xD1e6BDfb907EacD26FF69a40BBFF9278b1E7Cf5C",
   "XPNTS_FACTORY": "0x9dD72cB42427fC9F7Bf0c949DB7def51ef29D6Bd",
   "USDT": "0x14EaC6C3D49AEDff3D59773A7d7bfb50182bCfDc",
   "APNTS": "0xBD0710596010a157B88cd141d797E8Ad4bb2306b",
@@ -115,10 +115,10 @@ const CONTRACT_METADATA = [
   },
   {
     "name": "MySBT",
-    "version": "2.4.2",
-    "versionCode": 20402,
-    "deployedAt": "2025-11-05",
-    "address": "0xD20F64718485E8aA317c0f353420cdB147661b20",
+    "version": "2.4.3",
+    "versionCode": 20403,
+    "deployedAt": "2025-11-06",
+    "address": "0xD1e6BDfb907EacD26FF69a40BBFF9278b1E7Cf5C",
     "features": [
       "VERSION interface",
       "NFT architecture refactor",
@@ -127,8 +127,9 @@ const CONTRACT_METADATA = [
       "Membership management",
       "GToken mint fee (burn)",
       "safeMint() - DAO-only faucet minting",
-      "mintWithAutoStake() - one-transaction mint with automatic staking",
-      "Optimized under 24KB (24,458 bytes)"
+      "mintWithAutoStake() - FIXED: correct token transfer order for stake + burn",
+      "Highly optimized: 509 lines, 24,395 bytes (within 24KB limit)",
+      "Tested with Mycelium community (0x411BD567E46C0781248dbB6a9211891C032885e5)"
     ],
     "category": "tokens"
   },
@@ -191,7 +192,7 @@ const CONTRACT_METADATA = [
 ];
 
 // Version string for display in UI
-const SHARED_CONFIG_VERSION = '0.2.23';
+const SHARED_CONFIG_VERSION = '0.2.26';
 
 // Export for use in browser
 if (typeof window !== 'undefined') {
