@@ -469,6 +469,33 @@
                 transform: translateX(2px);
             }
 
+            .btn-external-sbt {
+                background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+                color: white;
+                border: none;
+                padding: 15px 25px;
+                border-radius: 10px;
+                font-weight: 700;
+                font-size: 14px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                text-decoration: none;
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+            }
+
+            .btn-external-sbt:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+                background: linear-gradient(135deg, #ee5a52, #dc4c3f);
+            }
+
+            .btn-external-sbt i {
+                font-size: 12px;
+            }
+
             .footer {
                 text-align: center;
                 margin-top: 30px;
@@ -688,6 +715,9 @@
 
             <div class="button-group">
                 <button class="btn-sbt" onclick="mintSBT()">Mint SBT</button>
+                <a href="http://superpaymaster.aastar.io/get-sbt" target="_blank" class="btn-external-sbt">
+                    <i class="fas fa-external-link-alt"></i> Mint MySBT
+                </a>
                 <button class="btn-pnt" onclick="mintPNT()">
                     Mint aPNTs + bPNTs
                 </button>
