@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@aastar/shared-config':
-        specifier: ^0.3.0
-        version: 0.3.0
+        specifier: ^0.3.1
+        version: 0.3.1
       ethers:
         specifier: ^6.15.0
         version: 6.15.0
@@ -24,8 +24,8 @@ importers:
 
 packages:
 
-  '@aastar/shared-config@0.3.0':
-    resolution: {integrity: sha512-Uz58obmtFRjfdI0aQThVgzfr90VQ1v1Lbuy4uHINUQCmloTLrbeKBWJdakCK89vZLSb2CSH9CjelJw46F2eEWg==}
+  '@aastar/shared-config@0.3.1':
+    resolution: {integrity: sha512-z/lUWQoBwxTpeBxrf9+FooXqudDUKdw8XRlsa3JvLtpnwqUjR8V84mhTZxpAiRUXdmnRljz4fIJZSW31kwWPMg==}
 
   '@adraffy/ens-normalize@1.10.1':
     resolution: {integrity: sha512-96Z2IP3mYmF1Xg2cDm8f1gWGf/HUVedQ3FMifV4kG/PQ4yEP51xDtRAEfhVNt5f/uzpNkZHwWQuUcu6D6K+Ekw==}
@@ -1135,7 +1135,7 @@ packages:
 
 snapshots:
 
-  '@aastar/shared-config@0.3.0': {}
+  '@aastar/shared-config@0.3.1': {}
 
   '@adraffy/ens-normalize@1.10.1': {}
 
