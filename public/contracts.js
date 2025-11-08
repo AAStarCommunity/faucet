@@ -1,12 +1,12 @@
-// Auto-generated from @aastar/shared-config v0.2.26
+// Auto-generated from @aastar/shared-config v0.3.0
 // DO NOT EDIT MANUALLY - Run 'npm run build:contracts' to regenerate
-// Generated at: 2025-11-06T07:35:33.816Z
+// Generated at: 2025-11-08T07:04:49.737Z
 
 const CONTRACTS = {
   "GTOKEN": "0x99cCb70646Be7A5aeE7aF98cE853a1EA1A676DCc",
   "GTOKEN_STAKING": "0xbEbF9b4c6a4cDB92Ac184aF211AdB13a0b9BF6c0",
-  "REGISTRY": "0xf384c592D5258c91805128291c5D4c069DD30CA6",
-  "SUPER_PAYMASTER_V2": "0x95B20d8FdF173a1190ff71e41024991B2c5e58eF",
+  "REGISTRY": "0x028aB52B4E0EF26820043ca4F1B5Fe14FfC1EF75",
+  "SUPER_PAYMASTER_V2": "0xfaB5B2A129DF8308a70DA2fE77c61001e4Df58BC",
   "PAYMASTER_FACTORY": "0x65Cf6C4ab3d40f3C919b6F3CADC09Efb72817920",
   "MYSBT": "0xD1e6BDfb907EacD26FF69a40BBFF9278b1E7Cf5C",
   "XPNTS_FACTORY": "0x9dD72cB42427fC9F7Bf0c949DB7def51ef29D6Bd",
@@ -38,7 +38,7 @@ const CONTRACT_METADATA = [
     "version": "2.0.0",
     "versionCode": 20000,
     "deployedAt": "2025-11-01",
-    "address": "0x95B20d8FdF173a1190ff71e41024991B2c5e58eF",
+    "address": "0xfaB5B2A129DF8308a70DA2fE77c61001e4Df58BC",
     "features": [
       "VERSION interface",
       "Unified architecture",
@@ -53,7 +53,7 @@ const CONTRACT_METADATA = [
     "version": "2.1.4",
     "versionCode": 20104,
     "deployedAt": "2025-11-02",
-    "address": "0xf384c592D5258c91805128291c5D4c069DD30CA6",
+    "address": "0x028aB52B4E0EF26820043ca4F1B5Fe14FfC1EF75",
     "features": [
       "VERSION interface",
       "allowPermissionlessMint defaults to true",
@@ -192,7 +192,7 @@ const CONTRACT_METADATA = [
 ];
 
 // Version string for display in UI
-const SHARED_CONFIG_VERSION = '0.2.26';
+const SHARED_CONFIG_VERSION = '0.3.0';
 
 // Export for use in browser
 if (typeof window !== 'undefined') {
