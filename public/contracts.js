@@ -1,12 +1,12 @@
-// Auto-generated from @aastar/shared-config v0.3.0
+// Auto-generated from @aastar/shared-config v0.3.3
 // DO NOT EDIT MANUALLY - Run 'npm run build:contracts' to regenerate
-// Generated at: 2025-11-08T07:04:49.737Z
+// Generated at: 2025-11-09T14:35:51.071Z
 
 const CONTRACTS = {
   "GTOKEN": "0x99cCb70646Be7A5aeE7aF98cE853a1EA1A676DCc",
   "GTOKEN_STAKING": "0xbEbF9b4c6a4cDB92Ac184aF211AdB13a0b9BF6c0",
-  "REGISTRY": "0x028aB52B4E0EF26820043ca4F1B5Fe14FfC1EF75",
-  "SUPER_PAYMASTER_V2": "0xfaB5B2A129DF8308a70DA2fE77c61001e4Df58BC",
+  "REGISTRY": "0x49245E1f3c2dD99b3884ffeD410d0605Cf4dC696",
+  "SUPER_PAYMASTER_V2": "0xD6aa17587737C59cbb82986Afbac88Db75771857",
   "PAYMASTER_FACTORY": "0x65Cf6C4ab3d40f3C919b6F3CADC09Efb72817920",
   "MYSBT": "0xD1e6BDfb907EacD26FF69a40BBFF9278b1E7Cf5C",
   "XPNTS_FACTORY": "0x9dD72cB42427fC9F7Bf0c949DB7def51ef29D6Bd",
@@ -35,25 +35,26 @@ const CONTRACT_METADATA = [
   },
   {
     "name": "SuperPaymasterV2",
-    "version": "2.0.0",
-    "versionCode": 20000,
-    "deployedAt": "2025-11-01",
-    "address": "0xfaB5B2A129DF8308a70DA2fE77c61001e4Df58BC",
+    "version": "2.1.0",
+    "versionCode": 20100,
+    "deployedAt": "2025-11-09",
+    "address": "0xD6aa17587737C59cbb82986Afbac88Db75771857",
     "features": [
       "VERSION interface",
       "Unified architecture",
       "xPNTs gas token support",
       "Reputation-based pricing",
-      "Multi-operator support"
+      "Multi-operator support",
+      "registerOperatorWithAutoStake (1-step registration)"
     ],
     "category": "core"
   },
   {
     "name": "Registry",
-    "version": "2.1.4",
-    "versionCode": 20104,
-    "deployedAt": "2025-11-02",
-    "address": "0x028aB52B4E0EF26820043ca4F1B5Fe14FfC1EF75",
+    "version": "2.2.1",
+    "versionCode": 20201,
+    "deployedAt": "2025-11-09",
+    "address": "0x49245E1f3c2dD99b3884ffeD410d0605Cf4dC696",
     "features": [
       "VERSION interface",
       "allowPermissionlessMint defaults to true",
@@ -61,7 +62,8 @@ const CONTRACT_METADATA = [
       "Community registration",
       "GToken staking requirement",
       "Slash mechanism",
-      "Uses new GTokenStaking with GToken v2.0.0"
+      "Uses new GTokenStaking with GToken v2.0.0",
+      "isRegistered mapping (duplicate prevention)"
     ],
     "category": "core"
   },
@@ -192,7 +194,7 @@ const CONTRACT_METADATA = [
 ];
 
 // Version string for display in UI
-const SHARED_CONFIG_VERSION = '0.3.0';
+const SHARED_CONFIG_VERSION = '0.3.3';
 
 // Export for use in browser
 if (typeof window !== 'undefined') {
