@@ -1,14 +1,14 @@
-// Auto-generated from @aastar/shared-config v0.3.3
+// Auto-generated from @aastar/shared-config v0.3.6
 // DO NOT EDIT MANUALLY - Run 'npm run build:contracts' to regenerate
-// Generated at: 2025-11-09T14:35:51.071Z
+// Generated at: 2025-11-20T02:37:57.097Z
 
 const CONTRACTS = {
   "GTOKEN": "0x99cCb70646Be7A5aeE7aF98cE853a1EA1A676DCc",
   "GTOKEN_STAKING": "0xbEbF9b4c6a4cDB92Ac184aF211AdB13a0b9BF6c0",
   "REGISTRY": "0x49245E1f3c2dD99b3884ffeD410d0605Cf4dC696",
-  "SUPER_PAYMASTER_V2": "0xD6aa17587737C59cbb82986Afbac88Db75771857",
+  "SUPER_PAYMASTER_V2": "0xe8c579dc426eC22168c3286da1aBd5458a5904A3",
   "PAYMASTER_FACTORY": "0x65Cf6C4ab3d40f3C919b6F3CADC09Efb72817920",
-  "MYSBT": "0xD1e6BDfb907EacD26FF69a40BBFF9278b1E7Cf5C",
+  "MYSBT": "0xc364A68Abd38a6428513abE519dEEA410803BB5A",
   "XPNTS_FACTORY": "0x9dD72cB42427fC9F7Bf0c949DB7def51ef29D6Bd",
   "USDT": "0x14EaC6C3D49AEDff3D59773A7d7bfb50182bCfDc",
   "APNTS": "0xBD0710596010a157B88cd141d797E8Ad4bb2306b",
@@ -35,17 +35,23 @@ const CONTRACT_METADATA = [
   },
   {
     "name": "SuperPaymasterV2",
-    "version": "2.1.0",
-    "versionCode": 20100,
-    "deployedAt": "2025-11-09",
-    "address": "0xD6aa17587737C59cbb82986Afbac88Db75771857",
+    "version": "2.3.2",
+    "versionCode": 20302,
+    "deployedAt": "2025-11-20",
+    "address": "0xe8c579dc426eC22168c3286da1aBd5458a5904A3",
     "features": [
       "VERSION interface",
       "Unified architecture",
       "xPNTs gas token support",
       "Reputation-based pricing",
       "Multi-operator support",
-      "registerOperatorWithAutoStake (1-step registration)"
+      "registerOperatorWithAutoStake (1-step registration)",
+      "CEI pattern fix - state changes before external calls",
+      "nonReentrant protection added",
+      "Price cache auto-update fix (was broken in v2.3.1)",
+      "Storage packing optimization (~800 gas saved)",
+      "Batch state updates (~200-400 gas saved)",
+      "Total gas optimization: ~5.5-11.2k gas vs v2.3.1"
     ],
     "category": "core"
   },
@@ -117,12 +123,13 @@ const CONTRACT_METADATA = [
   },
   {
     "name": "MySBT",
-    "version": "2.4.3",
-    "versionCode": 20403,
-    "deployedAt": "2025-11-06",
-    "address": "0xD1e6BDfb907EacD26FF69a40BBFF9278b1E7Cf5C",
+    "version": "2.4.4",
+    "versionCode": 20404,
+    "deployedAt": "2025-11-19",
+    "address": "0xc364A68Abd38a6428513abE519dEEA410803BB5A",
     "features": [
-      "VERSION interface",
+      "IVersioned interface: version() returns 2004004, versionString() returns \"v2.4.4\"",
+      "VERSION constants: VERSION=\"2.4.4\", VERSION_CODE=20404",
       "NFT architecture refactor",
       "Soulbound token (SBT)",
       "Time-based reputation",
@@ -130,8 +137,12 @@ const CONTRACT_METADATA = [
       "GToken mint fee (burn)",
       "safeMint() - DAO-only faucet minting",
       "mintWithAutoStake() - FIXED: correct token transfer order for stake + burn",
-      "Highly optimized: 509 lines, 24,395 bytes (within 24KB limit)",
-      "Tested with Mycelium community (0x411BD567E46C0781248dbB6a9211891C032885e5)"
+      "airdropMint() - NEW: Operator-paid batch minting (no user approval needed)",
+      "Operator pays all costs: 0.4 GT per user (0.1 burn + 0.3 stake)",
+      "True airdrop: Uses stakeFor() to stake on behalf of users",
+      "Idempotent: Safe to call multiple times (adds membership if SBT exists)",
+      "IR optimized: 18KB bytecode (under 24KB limit)",
+      "Fully tested: 14/14 tests passed including IVersioned interface"
     ],
     "category": "tokens"
   },
@@ -194,7 +205,7 @@ const CONTRACT_METADATA = [
 ];
 
 // Version string for display in UI
-const SHARED_CONFIG_VERSION = '0.3.3';
+const SHARED_CONFIG_VERSION = '0.3.6';
 
 // Export for use in browser
 if (typeof window !== 'undefined') {
